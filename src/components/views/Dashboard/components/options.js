@@ -31,16 +31,26 @@ export const options = {
     backgroundColor: palette.white,
     titleFontColor: palette.text.primary,
     bodyFontColor: palette.text.secondary,
-    footerFontColor: palette.text.secondary
+    footerFontColor: palette.text.secondary,
+    callbacks: {
+          label: function(tooltipItem, data) {
+              var value = data.datasets[0].data[tooltipItem.index];
+              if(parseInt(value) >= 1000){
+                         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                      } else {
+                         return value;
+                      }
+          }
+    } // end callbacks:
   },
   layout: { padding: 0 },
   scales: {
     xAxes: [
       {
-        barThickness: 12,
+        // barThickness: 12,
         maxBarThickness: 10,
-        barPercentage: 0.5,
-        categoryPercentage: 0.5,
+        //barPercentage: 0.5,
+        //categoryPercentage: 0.5,
         ticks: {
           fontColor: palette.text.secondary
         },
@@ -55,7 +65,11 @@ export const options = {
         ticks: {
           fontColor: palette.text.secondary,
           beginAtZero: true,
-          min: 0
+          min: 0,
+          callback(value) {
+            // you can add your own method here (just an example)
+            return Number(value).toLocaleString('en')
+          }
         },
         gridLines: {
           borderDash: [2],

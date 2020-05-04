@@ -9,7 +9,12 @@ import {
   CardActions,
   Divider,
   Button,
-  LinearProgress
+  LinearProgress,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'; 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -33,18 +38,57 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const ModalDialog = props => {
+	const [open, setOpen] = React.useState(true);
+
+	const handleTryAgain = () => {
+		setOpen(false);
+		props.tryAgain();
+	}
+
+	const handleClose = () => {
+		setOpen(false);
+		props.onClose();
+	}
+
+	return(
+		<Dialog
+	        open={open}
+	        aria-labelledby="alert-dialog-title"
+	        aria-describedby="alert-dialog-description"
+	        maxWidth='xs'
+	      >
+	        <DialogTitle id="alert-dialog-title">{"Oppps!"}</DialogTitle>
+	        <DialogContent>
+	          <DialogContentText id="alert-dialog-description">
+	            Terdapat kesalahan saat mengambil atau memperbarui data grafik produk, ini terjadi karena server sedang sibuk sehingga
+	            mengakibatkan gateway timeout. Harap pastikan kembali koneksi internet anda
+	          </DialogContentText>
+	        </DialogContent>
+	        <DialogActions>
+	          <Button onClick={handleClose} color="primary" autoFocus>
+	            Tutup
+	          </Button>
+	          <Button onClick={handleTryAgain} color="primary" autoFocus>
+	            Coba Lagi
+	          </Button>
+	        </DialogActions>
+	    </Dialog>
+	);
+}
+
 
 const BarChart = props => {
-	const { className, listproduk, ...rest } = props;
+	const { className, listproduk, error, onTryAgain, showTable, ...rest } = props;
 	const [formState, setState] = React.useState({
 		loading: true,
 		data: {
 			labels: ['Memuat...'],
 			datasets: [
 			    {
-			      label: 'This year',
+			      label: 'Example',
 			      backgroundColor: palette.primary.main,
-			      data: [18, 5, 19, 27, 29, 19, 20]
+			      data: [0]
 			    }
 			]
 		}
@@ -55,7 +99,7 @@ const BarChart = props => {
 		const labels   = [];
 		if (listproduk.length > 0) {
 			listproduk.slice(0, 10).forEach(product => {
-				datasets.push(product.bsu);
+				datasets.push(Math.round(product.bsu));
 				labels.push(product.deskripsi);
 			})
 
@@ -73,51 +117,81 @@ const BarChart = props => {
 		}
 	}, [listproduk])
 
+	const handleClose = () => {
+		if (listproduk.length <= 0) {
+			setState(prevState => ({
+				...prevState,
+				loading: false,
+				data: {
+					...prevState.data,
+					labels: ['Tidak dapat memuat data']
+				}
+			}))		
+		}
+	} 
+
+	const onOverview = () => {
+		if (listproduk.length > 0) {
+			showTable();
+		}
+	}
+
 	const classes = useStyles();
 
 	return(
-		<Card
-	      {...rest}
-	      className={clsx(classes.root, className)}
-	    >
-	    	<CardHeader
-		        action={
-		          <Button
-		            size="small"
-		            variant="text"
-		          >
-		            BULAN INI <ArrowDropDownIcon />
-		          </Button>
-		        }
-		        title="TOP PRODUK"
-		    />
-		    <Divider />
-		    <CardContent>
-		        <div className={classes.chartContainer}>
-		        	{ formState.loading && <LinearProgress className={classes.linear} />}
-		          	<Bar
-			            data={formState.data}
-			            options={options}
-			        />
-		        </div>
-		    </CardContent>
-		    <Divider/>
-		    <CardActions className={classes.actions}>
-		        <Button
-		          color="primary"
-		          size="small"
-		          variant="text"
-		        >
-		          Overview <ArrowRightIcon />
-		        </Button>
-		    </CardActions>
-	    </Card>
+		<React.Fragment>
+			{ error && <ModalDialog 
+				tryAgain={() => onTryAgain()} 
+				onClose={() => handleClose()}
+			/> }
+			<Card
+		      {...rest}
+		      className={clsx(classes.root, className)}
+		    >
+		    	<CardHeader
+			        action={
+			          <Button
+			            size="small"
+			            variant="text"
+			          >
+			            BULAN INI <ArrowDropDownIcon />
+			          </Button>
+			        }
+			        title="TOP PRODUK"
+			    />
+			    <Divider />
+			    <CardContent>
+			        <div className={classes.chartContainer}>
+			        	{ formState.loading && <LinearProgress className={classes.linear} />}
+			          	<Bar
+				            data={formState.data}
+				            options={options}
+				        />
+			        </div>
+			    </CardContent>
+			    <Divider/>
+			    <CardActions className={classes.actions}>
+			        <Button
+			          color="primary"
+			          size="small"
+			          variant="text"
+			          onClick={onOverview}
+			          disabled={listproduk.length > 0 ? false : true }
+			        >
+			          Overview <ArrowRightIcon />
+			        </Button>
+			    </CardActions>
+		    </Card>
+	    </React.Fragment>
 	);
 }
 
 BarChart.propTypes = {
   className: PropTypes.string,
-  listproduk: PropTypes.array.isRequired
+  listproduk: PropTypes.array.isRequired,
+  error: PropTypes.bool.isRequired,
+  onTryAgain: PropTypes.func.isRequired,
+  showTable: PropTypes.func.isRequired
 };
 
 export default BarChart;

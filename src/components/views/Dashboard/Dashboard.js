@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getTopProduk } from "../../../actions/produk";
 import { Grid } from '@material-ui/core';
 
-import { BarChart } from "./components";
+import { BarChart, MessageInfo, TableProduk } from "./components";
 
 const styles = theme => ({
 	root: {
@@ -13,10 +13,21 @@ const styles = theme => ({
 })
 
 class Dashboard extends React.Component{
-	
+	state = {
+		isError: false,
+		table: false
+	}
 	componentDidMount(){
-		this.props.getTopProduk();
-		//console.log(this.props.topProduk);
+		this.getProduk();
+	}
+
+	getProduk = () => 
+		this.props.getTopProduk()
+			.catch(() => this.setState({ isError: true }))
+
+	handleTryAgain = () => {
+		this.setState({ isError: false });
+		this.getProduk();
 	}
 
 	render(){
@@ -30,13 +41,36 @@ class Dashboard extends React.Component{
 			    >
 				    <Grid
 			          item
-			          lg={12}
+			          lg={9}
 			          md={12}
 			          xl={12}
 			          xs={12}
 			        >
-			        	<BarChart listproduk={topProduk} />
+			        	<BarChart 
+			        		listproduk={topProduk} 
+			        		error={this.state.isError} 
+			        		onTryAgain={this.handleTryAgain}
+			        		showTable={() => this.setState({ table: true })}
+			        	/>
 			        </Grid>
+			        <Grid
+			        	item
+			        	lg={3}
+			        	md={12}
+			        	xl={12}
+			        	xs={12}
+			        >
+			        	<MessageInfo />
+			        </Grid>
+			        { this.state.table && <Grid
+			        	  item
+				          lg={12}
+				          md={12}
+				          xl={12}
+				          xs={12}
+			        	>	
+			        		<TableProduk data={topProduk} />
+			        	</Grid> }
 			    </Grid>
 		    </div>
 		);
