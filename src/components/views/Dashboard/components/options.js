@@ -33,14 +33,11 @@ export const options = {
     bodyFontColor: palette.text.secondary,
     footerFontColor: palette.text.secondary,
     callbacks: {
-          label: function(tooltipItem, data) {
-              var value = data.datasets[0].data[tooltipItem.index];
-              if(parseInt(value) >= 1000){
-                         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                      } else {
-                         return value;
-                      }
-          }
+      label: function(tooltipItem, data) {
+        var xLabel       = data.datasets[tooltipItem.datasetIndex].label; 
+        var tooltipValue = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+        return `${xLabel} = ${parseInt(tooltipValue).toLocaleString()}`;   
+      }
     } // end callbacks:
   },
   layout: { padding: 0 },

@@ -116,7 +116,7 @@ const BarChart = props => {
 						data: datasets
 					},{
 						label: 'Bulan Sebelumnya',
-						backgroundColor: palette.info.dark,
+						backgroundColor: palette.success.light,
 						data: datasetsOld 
 					}]
 				}

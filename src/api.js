@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
 	user: {
 		login: (payload) => 
-			axios.post(`${process.env.REACT_APP_API_B}/auth/login`, {...payload })
+			axios.post(`${process.env.REACT_APP_API}/auth/login`, {...payload })
 				.then(res => {
 					const { data } = res;
 					if (!data.result) {
@@ -15,7 +15,7 @@ export default {
 	},
 	grafik: {
 		getProduk: () =>
-			axios.post(`${process.env.REACT_APP_API_B}/getProduk`)
+			axios.post(`${process.env.REACT_APP_API}/getProduk`)
 				.then(res => res.data.result)	
 	}
 }
