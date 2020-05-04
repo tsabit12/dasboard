@@ -58,7 +58,7 @@ const TableProduk = props => {
 		              <TableCell align="right">{numberWithCommas(Math.round(row.bsu))}</TableCell>
 		              <TableCell align="right">{numberWithCommas(Math.round(row.old_bsu))}</TableCell>
 		              <TableCell align="right">
-		              	{Math.round(((Math.round(row.bsu) - Math.round(row.old_bsu)) / Math.round(row.old_bsu)))}%
+		              	{ row.bsu === 0 && row.old_bsu === 0 ? '-' : `${Math.round(((row.bsu - row.old_bsu) / row.old_bsu))}%`}
 		              </TableCell>
 		            </TableRow>
 		          ))}
