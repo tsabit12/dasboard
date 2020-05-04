@@ -8,12 +8,11 @@ import {
   TextField,
   Typography,
   Backdrop,
-  CircularProgress,
-  Link
+  CircularProgress
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
 import { connect } from "react-redux";
 import { loggedIn } from "../../../actions/auth";
+import { MySnackbarContentWrapper } from "../Alert";
 
 const schema = {
   username: {
@@ -29,10 +28,6 @@ const schema = {
     }
   }
 };
-
-const Alert = props => (
-  <MuiAlert elevation={6} variant="filled" {...props} />
-);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -129,8 +124,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: 26,
     marginBottom: 20
   },
-  textInfo: {
-    fontSize: 16
+  progress: {
+    zIndex: theme.zIndex.drawer + 2,
+    position: 'absolute',
+    margin: '0 0 0 0',
+    left: '50%',
+    top: '50%',
+    color: 'white'
   }
 }));
 
@@ -228,9 +228,8 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
-      <Backdrop className={classes.backdrop} open={formState.open}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+        <Backdrop className={classes.backdrop} open={formState.open} />
+        { formState.open && <CircularProgress className={classes.progress} /> }
       <Grid
         className={classes.grid}
         container
@@ -277,14 +276,11 @@ const SignIn = props => {
                 className={classes.form}
                 onSubmit={handleSignIn}
               >
-                <Alert severity="info">
-                  <p className={classes.textInfo}>
-                    Silahkan sign-in menggunakan username dan password yang terdaftar di{' '} 
-                    <Link href="http://sales.posindonesia.co.id" color="textPrimary" target="_blank">
-                      http://sales.posindonesia.co.id
-                    </Link>
-                  </p>
-                </Alert>
+              <MySnackbarContentWrapper
+                variant="info"
+                // className={classes.margin}
+                message="Silahkan sign-in menggunakan username dan password yang terdaftar di sales.posindonesia.co.id"
+              />
                 <Typography
                   className={classes.title}
                   variant="h2"
@@ -292,10 +288,11 @@ const SignIn = props => {
                   Sign in
                 </Typography>
 
-                { formState.errors.global && 
-                  <Alert severity="error" className={classes.alert}>
-                    <p className={classes.textInfo}>{formState.errors.global[0]}</p>
-                  </Alert> }
+                { formState.errors.global && <MySnackbarContentWrapper
+                    variant="error"
+                    className={classes.alert}
+                    message={formState.errors.global[0]}
+                  />}
                 <TextField
                   className={classes.textField}
                   error={hasError('username')}

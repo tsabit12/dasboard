@@ -12,7 +12,6 @@ import clsx from "clsx";
 const useStyles = makeStyles(() => ({
   root: {},
   chartContainer: {
-    height: 430,
     position: 'relative'
   },
   info: {

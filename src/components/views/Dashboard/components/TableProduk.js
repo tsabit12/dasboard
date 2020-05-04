@@ -7,10 +7,8 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
-  TableRow,
-  Paper
+  TableRow
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'; 
 import PropTypes from 'prop-types';
@@ -40,28 +38,26 @@ const TableProduk = props => {
 			<CardHeader title="OVERVIEW GRAFIK PRODUK"/>
 		    <Divider />
 		    <CardContent>
-		        <TableContainer component={Paper}>
-			      <Table className={classes.table} aria-label="simple table">
-			        <TableHead>
-			          <TableRow>
-			            <TableCell align="left">NO</TableCell>
-			            <TableCell align="left">PRODUK</TableCell>
-			            <TableCell align="right">BSU</TableCell>
-			          </TableRow>
-			        </TableHead>
-			        <TableBody>
-			          {data.map((row) => (
-			            <TableRow key={row.deskripsi}>
-			              <TableCell component="th" scope="row">
-			                {no++}
-			              </TableCell>
-			              <TableCell align="left">{row.deskripsi}</TableCell>
-			              <TableCell align="right">{numberWithCommas(Math.round(row.bsu))}</TableCell>
-			            </TableRow>
-			          ))}
-			        </TableBody>
-			      </Table>
-			    </TableContainer>
+		      <Table className={classes.table} aria-label="simple table">
+		        <TableHead>
+		          <TableRow>
+		            <TableCell align="left">NO</TableCell>
+		            <TableCell align="left">PRODUK</TableCell>
+		            <TableCell align="right">BSU</TableCell>
+		          </TableRow>
+		        </TableHead>
+		        <TableBody>
+		          {data.map((row) => (
+		            <TableRow key={row.deskripsi}>
+		              <TableCell component="th" scope="row">
+		                {no++}
+		              </TableCell>
+		              <TableCell align="left">{row.deskripsi}</TableCell>
+		              <TableCell align="right">{numberWithCommas(Math.round(row.bsu))}</TableCell>
+		            </TableRow>
+		          ))}
+		        </TableBody>
+		      </Table>
 		    </CardContent>
 		</Card>
 	);
