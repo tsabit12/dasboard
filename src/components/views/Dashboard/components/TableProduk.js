@@ -43,7 +43,8 @@ const TableProduk = props => {
 		          <TableRow>
 		            <TableCell align="left">NO</TableCell>
 		            <TableCell align="left">PRODUK</TableCell>
-		            <TableCell align="right">BSU</TableCell>
+		            <TableCell align="right">BULAN INI</TableCell>
+		            <TableCell align="right">BULAN SEBELUMNYA</TableCell>
 		          </TableRow>
 		        </TableHead>
 		        <TableBody>
@@ -54,6 +55,7 @@ const TableProduk = props => {
 		              </TableCell>
 		              <TableCell align="left">{row.deskripsi}</TableCell>
 		              <TableCell align="right">{numberWithCommas(Math.round(row.bsu))}</TableCell>
+		              <TableCell align="right">{numberWithCommas(Math.round(row.old_bsu))}</TableCell>
 		            </TableRow>
 		          ))}
 		        </TableBody>

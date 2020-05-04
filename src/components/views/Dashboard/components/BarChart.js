@@ -96,10 +96,12 @@ const BarChart = props => {
 
 	React.useEffect(() => {
 		const datasets = [];
+		const datasetsOld = [];
 		const labels   = [];
 		if (listproduk.length > 0) {
 			listproduk.slice(0, 10).forEach(product => {
 				datasets.push(Math.round(product.bsu));
+				datasetsOld.push(Math.round(product.old_bsu));
 				labels.push(product.deskripsi);
 			})
 
@@ -109,8 +111,13 @@ const BarChart = props => {
 				data:{
 					labels: labels,
 					datasets: [{
+						label: 'Bulan Ini',
 						backgroundColor: palette.primary.main,
 						data: datasets
+					},{
+						label: 'Bulan Sebelumnya',
+						backgroundColor: palette.info.dark,
+						data: datasetsOld 
 					}]
 				}
 			})) 

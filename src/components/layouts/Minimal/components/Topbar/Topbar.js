@@ -18,7 +18,7 @@ const Topbar = props => {
       <Toolbar>
         <img
           alt="Logo"
-          src="/images/logos/pos.png"
+          src={`${process.env.REACT_APP_PUBLIC_URL}/images/logos/pos.png`}
         />
       </Toolbar>
     </AppBar>

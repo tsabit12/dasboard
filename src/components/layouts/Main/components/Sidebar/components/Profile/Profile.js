@@ -35,7 +35,7 @@ const Profile = props => {
 
   const user = {
     name: props.user.nama,
-    avatar: '/images/avatars/avatar_11.png',
+    avatar: `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`,
     bio: props.user.desjab
   };
 

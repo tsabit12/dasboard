@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { BrowserRouter, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -40,11 +40,11 @@ if (localStorage.dashboardSales) {
 }
 
 ReactDOM.render(
-  	<BrowserRouter>
+  	<HashRouter>
 		<Provider store={store}>
 			<Route component={App} /> 
 		</Provider>
-	</BrowserRouter>, 
+	</HashRouter>, 
   document.getElementById('root')
 );
 

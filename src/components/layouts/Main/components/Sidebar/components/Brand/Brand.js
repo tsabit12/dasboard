@@ -40,7 +40,7 @@ const Brand = props => {
       <div className={classes.media}>
         <img
           alt="Upgrade to PRO"
-          src="/images/GitHub-Mark-120px-plus.png"
+          src={`${process.env.REACT_APP_PUBLIC_URL}/images/GitHub-Mark-120px-plus.png`}
         />
       </div>
       <div className={classes.content}>
