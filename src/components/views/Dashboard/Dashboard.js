@@ -50,7 +50,8 @@ class Dashboard extends React.Component{
 			        		listproduk={topProduk} 
 			        		error={this.state.isError} 
 			        		onTryAgain={this.handleTryAgain}
-			        		showTable={() => this.setState({ table: true })}
+			        		showTable={() => this.setState({ table: !this.state.table })}
+			        		isShowTable={this.state.table}
 			        	/>
 			        </Grid>
 			        <Grid

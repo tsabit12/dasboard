@@ -79,7 +79,7 @@ const ModalDialog = props => {
 
 
 const BarChart = props => {
-	const { className, listproduk, error, onTryAgain, showTable, ...rest } = props;
+	const { className, listproduk, error, onTryAgain, showTable, isShowTable, ...rest } = props;
 	const [formState, setState] = React.useState({
 		loading: true,
 		data: {
@@ -155,17 +155,7 @@ const BarChart = props => {
 		      {...rest}
 		      className={clsx(classes.root, className)}
 		    >
-		    	<CardHeader
-			        action={
-			          <Button
-			            size="small"
-			            variant="text"
-			          >
-			            BULAN INI <ArrowDropDownIcon />
-			          </Button>
-			        }
-			        title="TOP PRODUK"
-			    />
+		    	<CardHeader title="TOP PRODUK"/>
 			    <Divider />
 			    <CardContent>
 			        <div className={classes.chartContainer}>
@@ -185,7 +175,11 @@ const BarChart = props => {
 			          onClick={onOverview}
 			          disabled={listproduk.length > 0 ? false : true }
 			        >
-			          Overview <ArrowRightIcon />
+			          { isShowTable ? <React.Fragment>
+			          		Minimize <ArrowDropDownIcon />
+			          	</React.Fragment> : <React.Fragment>
+			          		Overview <ArrowRightIcon />
+			          	</React.Fragment> } 
 			        </Button>
 			    </CardActions>
 		    </Card>
@@ -198,7 +192,8 @@ BarChart.propTypes = {
   listproduk: PropTypes.array.isRequired,
   error: PropTypes.bool.isRequired,
   onTryAgain: PropTypes.func.isRequired,
-  showTable: PropTypes.func.isRequired
+  showTable: PropTypes.func.isRequired,
+  isShowTable: PropTypes.bool
 };
 
 export default BarChart;
