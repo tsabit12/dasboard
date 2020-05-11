@@ -18,6 +18,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import GradeSharpIcon from '@material-ui/icons/GradeSharp';
 import PeopleSharpIcon from '@material-ui/icons/PeopleSharp';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import WarningIcon from '@material-ui/icons/Warning';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -102,10 +106,10 @@ const SidebarNav = props => {
     >
       <ListItem button onClick={onExpand}>
         <ListItemIcon>
-          <AssessmentIcon />
+          <AssessmentIcon color={open.isOpen ? 'primary' : ''} />
         </ListItemIcon>
         <ListItemText className={classes.listText}>
-          <span className={classes.span}>TOP KORPORAT BULAN INI</span>
+          <span className={open.isOpen ? classes.active : classes.span}>TOP BISNIS KORPORAT</span>
         </ListItemText>
         {open.isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
@@ -118,10 +122,40 @@ const SidebarNav = props => {
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <GradeSharpIcon />
+              <GradeSharpIcon color={open.active.produk ? 'primary' : ''} />
             </ListItemIcon>
             <ListItemText className={classes.listText}>
               <span className={open.active.produk ? classes.active : classes.span }>TOP PRODUK</span>
+            </ListItemText>
+          </ListItem>
+        </List>
+        <List 
+          disablePadding 
+          onClick={() => handleClick('regional')}
+          component={CustomRouterLink}
+          to='top-reg'
+        >
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <TrendingUpIcon color={open.active.regional ? 'primary' : ''} />
+            </ListItemIcon>
+            <ListItemText className={classes.listText}>
+              <span className={open.active.regional ? classes.active : classes.span }>TOP REGIONAL</span>
+            </ListItemText>
+          </ListItem>
+        </List>
+        <List 
+          disablePadding 
+          onClick={() => handleClick('ae')}
+          component={CustomRouterLink}
+          to='top-ae'
+        >
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <TrendingUpIcon />
+            </ListItemIcon>
+            <ListItemText className={classes.listText}>
+              <span className={open.active.ae ? classes.active : classes.span }>TOP 10 KANTOR POS</span>
             </ListItemText>
           </ListItem>
         </List>
@@ -140,7 +174,31 @@ const SidebarNav = props => {
             </ListItemText>
           </ListItem>
         </List>
+        <List 
+          disablePadding 
+          onClick={() => handleClick('ae')}
+          component={CustomRouterLink}
+          to='top-ae'
+        >
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <WarningIcon />
+            </ListItemIcon>
+            <ListItemText className={classes.listText}>
+              <span className={open.active.ae ? classes.active : classes.span }>{`AE DIBAWAH 15JT`}</span>
+            </ListItemText>
+          </ListItem>
+        </List>
       </Collapse>
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentTurnedInIcon />
+        </ListItemIcon>
+        <ListItemText className={classes.listText}>
+          <span className={classes.span}>LAPORAN KORPORAT</span>
+        </ListItemText>
+        <ExpandMore />
+      </ListItem>
     </List>
   );
 };

@@ -11,7 +11,8 @@ import {
   Dashboard as DashboardView,
   SignIn as SignInView,
   TopAe as TopAeView,
-  NotFound as NotFoundView
+  NotFound as NotFoundView,
+  TopReg as TopRegView
 } from "./components/views";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -36,6 +37,13 @@ const App = ({ location }) => {
           exact
           layout={MainLayout}
           path="/top-ae"
+        />
+        <GuesRouteWithLayout
+          location={location}
+          component={TopRegView}
+          exact
+          layout={MainLayout}
+          path="/top-reg"
         />
         <UserRouteWithLayout
           location={location}

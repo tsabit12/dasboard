@@ -20,7 +20,7 @@ export const options = {
   responsive: true,
   maintainAspectRatio: false,
   animation: false,
-  legend: { display: false },
+  //legend: { display: false },
   cornerRadius: 20,
   tooltips: {
     enabled: true,
@@ -44,10 +44,10 @@ export const options = {
   scales: {
     xAxes: [
       {
-        // barThickness: 12,
+        barThickness: 12,
         maxBarThickness: 10,
-        //barPercentage: 0.5,
-        //categoryPercentage: 0.5,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
         ticks: {
           fontColor: palette.text.secondary
         },
