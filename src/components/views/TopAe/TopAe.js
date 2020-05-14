@@ -4,10 +4,13 @@ import {
 	Breadcrumbs,
 	Typography
 } from '@material-ui/core';
+import PropTypes from "prop-types";
 import { withStyles } from '@material-ui/styles';
-import { TableAe } from "./components";
+import { TableAe, GrafikAe } from "./components";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import { connect } from "react-redux";
+import { getTopAe } from "../../../actions/ae";
 
 const styles = theme => ({
 	root: {
@@ -24,6 +27,10 @@ const styles = theme => ({
 })
 
 class TopAe extends React.Component{
+	componentDidMount(){
+		this.props.getTopAe();
+	}
+
 	render(){
 		const { classes } = this.props;
 
@@ -36,12 +43,15 @@ class TopAe extends React.Component{
 			        </div>
 			        <Typography color="textPrimary" className={classes.link}>
 			          <WhatshotIcon className={classes.icon} />
-			          TOP 100 AE
+			          TOP 100 AE (BULAN INI)
 			        </Typography>
 			    </Breadcrumbs>
-				<Grid container spacing={4}>
+				<Grid container spacing={2}>
 					<Grid item lg={12} md={12} xl={12} xs={12}>
-						<TableAe />
+						<GrafikAe data={this.props.grafik} />
+					</Grid>
+					<Grid item lg={12} md={12} xl={12} xs={12}>
+						<TableAe list={this.props.data} />
 					</Grid>
 				</Grid>
 			</div>
@@ -49,4 +59,17 @@ class TopAe extends React.Component{
 	}
 }
 
-export default withStyles(styles)(TopAe);
+TopAe.propTypes = {
+	getTopAe: PropTypes.func.isRequired,
+	data: PropTypes.array.isRequired,
+	grafik: PropTypes.array.isRequired
+}
+
+function mapStateToProps(state) {
+	return{
+		data: state.ae.top,
+		grafik: state.ae.grafikTop
+	}
+}
+
+export default connect(mapStateToProps, { getTopAe })(withStyles(styles)(TopAe));

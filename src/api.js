@@ -23,5 +23,10 @@ export default {
 		getTopKrpk: () =>
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`)
 				.then(res => res.data.result)
+	},
+	ae: {
+		getTop: () =>
+			axios.post(`${process.env.REACT_APP_API}/ae`)
+				.then(res => res.data)
 	}
 }
