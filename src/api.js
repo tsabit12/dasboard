@@ -15,10 +15,13 @@ export default {
 	},
 	grafik: {
 		getProduk: () =>
-			axios.post(`${process.env.REACT_APP_API_B}/getProduk`)
+			axios.post(`${process.env.REACT_APP_API}/getProduk`)
 				.then(res => res.data.result),
 		getToReg: () => 
-			axios.post(`${process.env.REACT_APP_API_B}/GetPendapatan`)
+			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`)
+				.then(res => res.data.result),
+		getTopKrpk: () =>
+			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`)
 				.then(res => res.data.result)
 	}
 }

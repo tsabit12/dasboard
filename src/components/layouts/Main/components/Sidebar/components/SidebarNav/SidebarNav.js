@@ -146,16 +146,16 @@ const SidebarNav = props => {
         </List>
         <List 
           disablePadding 
-          onClick={() => handleClick('ae')}
+          onClick={() => handleClick('kprk')}
           component={CustomRouterLink}
-          to='top-ae'
+          to='top-kprk'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <TrendingUpIcon />
             </ListItemIcon>
             <ListItemText className={classes.listText}>
-              <span className={open.active.ae ? classes.active : classes.span }>TOP 10 KANTOR POS</span>
+              <span className={open.active.kprk ? classes.active : classes.span }>TOP 10 KANTOR POS</span>
             </ListItemText>
           </ListItem>
         </List>
@@ -163,7 +163,7 @@ const SidebarNav = props => {
           disablePadding 
           onClick={() => handleClick('ae')}
           component={CustomRouterLink}
-          to='top-ae'
+          to='ae'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
@@ -171,21 +171,6 @@ const SidebarNav = props => {
             </ListItemIcon>
             <ListItemText className={classes.listText}>
               <span className={open.active.ae ? classes.active : classes.span }>TOP 100 AE</span>
-            </ListItemText>
-          </ListItem>
-        </List>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('ae')}
-          component={CustomRouterLink}
-          to='top-ae'
-        >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <WarningIcon />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.ae ? classes.active : classes.span }>{`AE DIBAWAH 15JT`}</span>
             </ListItemText>
           </ListItem>
         </List>

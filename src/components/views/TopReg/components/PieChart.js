@@ -129,7 +129,7 @@ const PieChart = props => {
 		  {...rest}
 		  className={clsx(classes.root, className)}
 		>
-			<CardHeader title="PERSENATSE"/>
+			<CardHeader title="PERSENTASE"/>
 		    <Divider />
 		    <CardContent>
 		    	<div className={classes.chartContainer}>
