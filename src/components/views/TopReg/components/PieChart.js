@@ -15,7 +15,8 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%'
+    height: '100%',
+    marginTop: '10px'
   },
   chartContainer: {
     position: 'relative',
