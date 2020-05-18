@@ -1,5 +1,5 @@
 import api from "../api";
-import { GET_TOP_AE } from "../types";
+import { GET_TOP_AE, GET_MINUS_AE, GET_TOTAL_ROW_MINUS } from "../types";
 
 export const getTopAe = () => dispatch => 
 	api.ae.getTop()
@@ -7,4 +7,19 @@ export const getTopAe = () => dispatch =>
 			type: GET_TOP_AE,
 			data: res.result,
 			grafik: res.grafik
+		}))
+
+export const getMinus = (payload) => dispatch => 
+	api.ae.getMinus(payload)
+		.then(res => dispatch({
+			type: GET_MINUS_AE,
+			data: res,
+			payload
+		})) 
+
+export const getTotalRow = () => dispatch => 
+	api.ae.getTotal()
+		.then(res => dispatch({
+			type: GET_TOTAL_ROW_MINUS,
+			total: res.total_row
 		}))

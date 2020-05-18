@@ -27,6 +27,13 @@ export default {
 	ae: {
 		getTop: () =>
 			axios.post(`${process.env.REACT_APP_API}/ae`)
-				.then(res => res.data)
+				.then(res => res.data),
+		getMinus: (payload) => 
+			axios.post(`${process.env.REACT_APP_API}/ae/getMinus15`, {
+				...payload
+			}).then(res => res.data.result),
+		getTotal: () =>
+			axios.post(`${process.env.REACT_APP_API}/ae/getTotalRow`)
+				.then(res => res.data.result)
 	}
 }

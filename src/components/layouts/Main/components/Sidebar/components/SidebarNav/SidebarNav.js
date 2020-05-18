@@ -174,6 +174,21 @@ const SidebarNav = props => {
             </ListItemText>
           </ListItem>
         </List>
+        <List 
+          disablePadding 
+          onClick={() => handleClick('minus')}
+          component={CustomRouterLink}
+          to='ae'
+        >
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <WarningIcon />
+            </ListItemIcon>
+            <ListItemText className={classes.listText}>
+              <span className={open.active.minus ? classes.active : classes.span }>AE DIBAWAH 15JT</span>
+            </ListItemText>
+          </ListItem>
+        </List>
       </Collapse>
       <ListItem button>
         <ListItemIcon>
