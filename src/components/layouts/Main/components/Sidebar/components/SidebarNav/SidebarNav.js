@@ -133,7 +133,7 @@ const SidebarNav = props => {
           disablePadding 
           onClick={() => handleClick('regional')}
           component={CustomRouterLink}
-          to='top-reg'
+          to='/sales/top-reg'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
@@ -148,7 +148,7 @@ const SidebarNav = props => {
           disablePadding 
           onClick={() => handleClick('kprk')}
           component={CustomRouterLink}
-          to='top-kprk'
+          to='/sales/top-kprk'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
@@ -163,7 +163,7 @@ const SidebarNav = props => {
           disablePadding 
           onClick={() => handleClick('ae')}
           component={CustomRouterLink}
-          to='top-ae'
+          to='/sales/top-ae'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
@@ -178,7 +178,7 @@ const SidebarNav = props => {
           disablePadding 
           onClick={() => handleClick('minus')}
           component={CustomRouterLink}
-          to='ae'
+          to='/sales/ae'
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>

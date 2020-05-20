@@ -11,7 +11,7 @@ const GuesRouteWithLayout = props => {
       {...rest}
       render={matchProps => 
         <Layout>
-          { isAuthenticated === true ? <Component {...matchProps} /> : <Redirect to="/sign-in" /> } 
+          { isAuthenticated === true ? <Component {...matchProps} /> : <Redirect to="/sales/sign-in" /> } 
         </Layout>
       }
     />

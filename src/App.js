@@ -14,7 +14,8 @@ import {
   NotFound as NotFoundView,
   TopReg as TopRegView,
   TopKprk as TopKprkView,
-  Ae as AeView
+  Ae as AeView,
+  IndexV as IndexView
 } from "./components/views";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -28,45 +29,52 @@ const App = ({ location }) => {
       <Switch>
         <GuesRouteWithLayout
           location={location}
+          component={IndexView}
+          exact
+          layout={MinimalLayout}
+          path="/"
+        />
+        <GuesRouteWithLayout
+          location={location}
           component={DashboardView}
           exact
           layout={MainLayout}
-          path="/"
+          path="/sales/home"
         />
         <GuesRouteWithLayout
           location={location}
           component={TopAeView}
           exact
           layout={MainLayout}
-          path="/top-ae"
+          path="/sales/top-ae"
         />
         <GuesRouteWithLayout
           location={location}
           component={TopRegView}
           exact
           layout={MainLayout}
-          path="/top-reg"
+          path="/sales/top-reg"
         />
         <GuesRouteWithLayout
           location={location}
           component={TopKprkView}
           exact
           layout={MainLayout}
-          path="/top-kprk"
+          path="/sales/top-kprk"
         />
         <GuesRouteWithLayout
           location={location}
           component={AeView}
           exact
           layout={MainLayout}
-          path="/ae"
+          path="/sales/ae"
         />
         <UserRouteWithLayout
           location={location}
           component={SignInView}
           exact
           layout={MinimalLayout}
-          path="/sign-in"
+          path="/sales/sign-in"
         />
         <AllRouteWithLayout
           component={NotFoundView}
