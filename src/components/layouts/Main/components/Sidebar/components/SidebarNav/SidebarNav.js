@@ -152,7 +152,7 @@ const SidebarNav = props => {
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <TrendingUpIcon />
+              <TrendingUpIcon color={open.active.kprk ? 'primary' : ''}  />
             </ListItemIcon>
             <ListItemText className={classes.listText}>
               <span className={open.active.kprk ? classes.active : classes.span }>TOP 10 KANTOR POS</span>
@@ -167,7 +167,7 @@ const SidebarNav = props => {
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <PeopleSharpIcon />
+              <PeopleSharpIcon color={open.active.ae ? 'primary' : ''}  />
             </ListItemIcon>
             <ListItemText className={classes.listText}>
               <span className={open.active.ae ? classes.active : classes.span }>TOP 100 AE</span>
@@ -182,7 +182,7 @@ const SidebarNav = props => {
         >
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <WarningIcon />
+              <WarningIcon color={open.active.minus ? 'primary' : ''}  />
             </ListItemIcon>
             <ListItemText className={classes.listText}>
               <span className={open.active.minus ? classes.active : classes.span }>AE DIBAWAH 15JT</span>
