@@ -9,14 +9,17 @@ import {
 	InputLabel,
 	Button,
 	Backdrop,
-  	CircularProgress
+  	CircularProgress,
+  	FormHelperText,
+  	Grid
 } from '@material-ui/core';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { connect } from "react-redux";
-import { getRegional } from "../../../actions/report";
+import { getRegional, getPks, getPeriodepks } from "../../../actions/report";
 import PropTypes from "prop-types";
 import api from "../../../api";
+import { TablePks } from "./components";
 
 const ListArea = props => (
 	<Select
@@ -66,7 +69,7 @@ const ListPeriode = props => (
         id: 'periode-id',
       }}
     >
-    	<MenuItem value="11">PILIH PERIODE</MenuItem>
+    	<MenuItem value="01">SEMUA PERIODE</MenuItem>
     	{ props.periode.map((row, index) => 
     		<MenuItem 
     			value={row.awalpks} 
@@ -129,20 +132,21 @@ const styles = theme => ({
 class Pks extends React.Component{
 	state = {
 		data: {
-			reg: '00',
-			kprk: '00',
-			jenis: '01',
-			periode: '11'
+			reg: this.props.params.reg ? this.props.params.reg : '00',
+			kprk: this.props.params.kprk ? this.props.params.kprk : '00',
+			jenis: this.props.params.jenis ? this.props.params.jenis : '11',
+			periode: this.props.params.periode ? this.props.params.periode : '01'
 		},
 		kprk: [],
-		periode: [],
-		loading: false
+		loading: false,
+		errors: {}
 	}
 
 	componentDidMount(){
 		this.props.getRegional();
-		api.report.getPeriodePks()
-			.then(res => this.setState({ periode: res }))
+		setTimeout(() => {
+			this.props.getPeriodepks();
+		}, 100);
 	}
 
 	handleChangeReg = (event) => {
@@ -164,21 +168,41 @@ class Pks extends React.Component{
 			data: {
 				...this.state.data,
 				[event.target.name]: value
+			},
+			errors: {
+				...this.state.errors,
+				[event.target.name]: undefined
 			}
 		})
 	}
 
 	onSubmit = () => {
-		this.setState({ loading: true });
-		setTimeout(() => {
-			alert("Pks on progress in development..");
-			this.setState({ loading: false });
-		}, 3000)
+		const errors = this.validate(this.state.data);
+		this.setState({ errors });
+		if (Object.keys(errors).length === 0) {
+			this.setState({ loading: true });
+			this.props.getPks(this.state.data)
+				.then(res => this.setState({ loading: false }))
+				.catch(err => {
+					if (err.response) {
+						const { data } = err.response;
+						this.setState({ errors: data.errors, loading: false });
+					}else{
+						this.setState({ loading: false, errors: { global: 'Terdapat kesalahan, silahkan cobalagi nanti'}})
+					}
+				})
+		}
+	}
+
+	validate = (data) => {
+		const errors = {};
+		if (data.jenis === '11') errors.jenis = "Harap dipilih";
+		return errors;
 	}
 
 	render(){
-		const { classes, area } = this.props;
-		const { data, kprk, periode, loading } = this.state;
+		const { classes, area, periode } = this.props;
+		const { data, kprk, loading, errors } = this.state;
 		return(
 			<div elevation={0} className={classes.root}>
 				<Backdrop className={classes.backdrop} open={loading} />
@@ -217,7 +241,7 @@ class Pks extends React.Component{
 							    	<MenuItem value='00'>SEMUA KPRK</MenuItem>
 							    </Select>}
 	        			</FormControl>
-	        			<FormControl className={classes.formControl} disabled={data.periode !== '11' ? true : false }>
+	        			<FormControl className={classes.formControl} error={!!errors.jenis}>
 	        				<InputLabel htmlFor="jenis-id">JENIS LAPORAN</InputLabel>
 	        				<Select
 						      value={data.jenis}
@@ -227,10 +251,12 @@ class Pks extends React.Component{
 						        id: 'jenis-id',
 						      }}
 						    >
+						    	<MenuItem value='11'>PILIH JENIS</MenuItem>
 						    	<MenuItem value='01'>BARU</MenuItem>
 						    	<MenuItem value='02'>EXISTING</MenuItem>
 						    	<MenuItem value='03'>EXPIRED</MenuItem>
 						    </Select>
+						    { errors.jenis && <FormHelperText>{errors.jenis}</FormHelperText> }
 	        			</FormControl>
 	        			<FormControl className={classes.formControl}>
 	        				<InputLabel htmlFor="periode-id">PERIODE</InputLabel>
@@ -243,13 +269,21 @@ class Pks extends React.Component{
 							      }}
 							      
 							    >
-							    	<MenuItem value="11">LOADING...</MenuItem>
+							    	<MenuItem value="01">LOADING...</MenuItem>
 						    	</Select>}
 	        			</FormControl>
 	        			<div style={{marginLeft: '20px', alignSelf:'center', justifyContent: 'center'}}>
 				    	<Button color="primary" onClick={this.onSubmit} variant="contained">TAMPILKAN</Button>
 				    	</div>
 				    </form>
+				    <Grid container spacing={4}>
+				    	<Grid item lg={12} md={12} xl={12} xs={12}>
+				    		<TablePks 
+				    			data={this.props.datapks} 
+				    			errors={errors}
+				    		/>
+				    	</Grid>
+				    </Grid>
 			</div>
 		);
 	}
@@ -257,13 +291,20 @@ class Pks extends React.Component{
 
 Pks.propTypes = {
 	getRegional: PropTypes.func.isRequired,
-	area: PropTypes.array.isRequired
+	area: PropTypes.array.isRequired,
+	params: PropTypes.object.isRequired,
+	getPeriodepks: PropTypes.func.isRequired,
+	periode: PropTypes.array.isRequired,
+	datapks: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
-		area: state.report.area
+		area: state.report.area,
+		params: state.report.pks.searchParams,
+		periode: state.report.periodePks,
+		datapks: state.report.pks.data
 	}
 }
 
-export default connect(mapStateToProps, { getRegional })(withStyles(styles)(Pks));
+export default connect(mapStateToProps, { getRegional, getPks, getPeriodepks })(withStyles(styles)(Pks));

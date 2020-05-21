@@ -1,7 +1,17 @@
-import { GET_AREA } from "../types";
+import { GET_AREA, GET_PKS, GET_PERIODE_PKS } from "../types";
 
 const initialState = {
-	area: []
+	area: [],
+	pks: {
+		searchParams: {
+			reg: null,
+			kprk: null,
+			jenis: null,
+			periode: null
+		},
+		data: []
+	},
+	periodePks: []
 }
 
 export default function report(state=initialState, action={}) {
@@ -10,6 +20,19 @@ export default function report(state=initialState, action={}) {
 			return{
 				...state,
 				area: action.data
+			}
+		case GET_PKS:
+			return{
+				...state,
+				pks: {
+					searchParams: action.searchParams,
+					data: action.data
+				}
+			}
+		case GET_PERIODE_PKS:
+			return{
+				...state,
+				periodePks: action.data
 			}
 		default: return state;
 	}

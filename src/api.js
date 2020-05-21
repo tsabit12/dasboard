@@ -46,6 +46,10 @@ export default {
 			}).then(res => res.data.result),
 		getPeriodePks: () =>
 			axios.post(`${process.env.REACT_APP_API}/report/getPeriodePks`)
-				.then(res => res.data.result)
+				.then(res => res.data.result),
+		getPks: (payload) => 
+			axios.post(`${process.env.REACT_APP_API}/report/getPks`, {
+				...payload
+			}).then(res => res.data.result)
 	}
 }

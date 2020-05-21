@@ -7,3 +7,5 @@ export const GET_TOP_AE = 'GET_TOP_AE';
 export const GET_MINUS_AE = 'GET_MINUS_AE';
 export const GET_TOTAL_ROW_MINUS = 'GET_TOTAL_ROW_MINUS';
 export const GET_AREA = 'GET_AREA';
+export const GET_PKS = 'GET_PKS';
+export const GET_PERIODE_PKS = 'GET_PERIODE_PKS';
