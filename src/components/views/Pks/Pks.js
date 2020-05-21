@@ -278,6 +278,8 @@ class Pks extends React.Component{
 				    </form>
 				    <Grid container spacing={4}>
 				    	<Grid item lg={12} md={12} xl={12} xs={12}>
+				    		{ this.props.datapks.length > 0 && <Typography variant="body2" style={{color: 'red'}}>
+				    			TOTAL = {this.props.datapks.length}</Typography> }
 				    		<TablePks 
 				    			data={this.props.datapks} 
 				    			errors={errors}
