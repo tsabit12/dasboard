@@ -6,3 +6,4 @@ export const GET_TOP_KPRK = 'GET_TOP_KPRK';
 export const GET_TOP_AE = 'GET_TOP_AE';
 export const GET_MINUS_AE = 'GET_MINUS_AE';
 export const GET_TOTAL_ROW_MINUS = 'GET_TOTAL_ROW_MINUS';
+export const GET_AREA = 'GET_AREA';

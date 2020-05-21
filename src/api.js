@@ -35,5 +35,17 @@ export default {
 		getTotal: () =>
 			axios.post(`${process.env.REACT_APP_API}/ae/getTotalRow`)
 				.then(res => res.data.result)
+	},
+	report: {
+		getRegional: () =>
+			axios.post(`${process.env.REACT_APP_API}/report/getArea`)
+				.then(res => res.data.result),
+		getKprk: (area) =>
+			axios.post(`${process.env.REACT_APP_API}/report/getKprk`, {
+				area: area
+			}).then(res => res.data.result),
+		getPeriodePks: () =>
+			axios.post(`${process.env.REACT_APP_API}/report/getPeriodePks`)
+				.then(res => res.data.result)
 	}
 }

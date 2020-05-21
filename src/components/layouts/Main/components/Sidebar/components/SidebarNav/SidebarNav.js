@@ -21,7 +21,7 @@ import PeopleSharpIcon from '@material-ui/icons/PeopleSharp';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import WarningIcon from '@material-ui/icons/Warning';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -76,7 +76,9 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = props => {
   const [open, setOpen] = useState({
-    isOpen: true,
+    isOpen: {
+      top: true
+    },
     active: {
       produk: true
     }
@@ -85,10 +87,17 @@ const SidebarNav = props => {
 
   const classes = useStyles();
 
-  const onExpand = () => setOpen({
-    ...open,
-    isOpen: !open.isOpen
-  });
+  const onExpand = (name) => setOpen(prev => ({
+    ...prev,
+    isOpen: {
+      [name]: !prev.isOpen[name]
+    }
+  }))
+
+  // const onExpand = () => setOpen({
+  //   ...open,
+  //   isOpen: !open.isOpen
+  // });
 
   const handleClick = href => {
     setOpen({
@@ -104,16 +113,16 @@ const SidebarNav = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <ListItem button onClick={onExpand}>
+      <ListItem button onClick={() => onExpand('top')}>
         <ListItemIcon>
-          <AssessmentIcon color={open.isOpen ? 'primary' : ''} />
+          <AssessmentIcon/>
         </ListItemIcon>
         <ListItemText className={classes.listText}>
-          <span className={open.isOpen ? classes.active : classes.span}>TOP BISNIS KORPORAT</span>
+          <span className={classes.span}>TOP BISNIS KORPORAT</span>
         </ListItemText>
-        {open.isOpen ? <ExpandLess /> : <ExpandMore />}
+        {open.isOpen.top ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={open.isOpen} timeout="auto" unmountOnExit>
+      <Collapse in={open.isOpen.top} timeout="auto" unmountOnExit>
         <List 
           disablePadding 
           onClick={() => handleClick('produk')}
@@ -190,15 +199,32 @@ const SidebarNav = props => {
           </ListItem>
         </List>
       </Collapse>
-      <ListItem button>
+      <ListItem button onClick={() => onExpand('report')}>
         <ListItemIcon>
           <AssignmentTurnedInIcon />
         </ListItemIcon>
         <ListItemText className={classes.listText}>
           <span className={classes.span}>LAPORAN KORPORAT</span>
         </ListItemText>
-        <ExpandMore />
+        {open.isOpen.report ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
+      <Collapse in={open.isOpen.report} timeout="auto" unmountOnExit>
+        <List 
+          disablePadding 
+          onClick={() => handleClick('pks')}
+          component={CustomRouterLink}
+          to='/sales/list-pks'
+        >
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <WatchLaterIcon color={open.active.pks ? 'primary' : ''} />
+            </ListItemIcon>
+            <ListItemText className={classes.listText}>
+              <span className={open.active.pks ? classes.active : classes.span }>DAFTAR PKS</span>
+            </ListItemText>
+          </ListItem>
+        </List>
+      </Collapse>
     </List>
   );
 };

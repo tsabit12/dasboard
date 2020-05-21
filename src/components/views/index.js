@@ -9,3 +9,4 @@ export { default as SignIn } from './SignIn';
 export { default as TopKprk } from './TopKprk';
 export { default as IndexV } from './IndexV';
 export { default as Ae } from './Ae';
+export { default as Pks } from './Pks';
