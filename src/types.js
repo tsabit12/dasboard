@@ -9,3 +9,4 @@ export const GET_TOTAL_ROW_MINUS = 'GET_TOTAL_ROW_MINUS';
 export const GET_AREA = 'GET_AREA';
 export const GET_PKS = 'GET_PKS';
 export const GET_PERIODE_PKS = 'GET_PERIODE_PKS';
+export const GET_JUMLAH_USER_QPOSIN = 'GET_JUMLAH_USER_QPOSIN';

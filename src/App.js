@@ -19,6 +19,10 @@ import {
   Pks as PksView
 } from "./components/views";
 
+import {
+  Users as UserQposinView
+} from "./components/qposinView";
+
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw
 });
@@ -83,6 +87,12 @@ const App = ({ location }) => {
           exact
           layout={MinimalLayout}
           path="/sales/sign-in"
+        />
+        <AllRouteWithLayout
+          component={UserQposinView}
+          exact
+          layout={MainLayout}
+          path="/qposin/user"
         />
         <AllRouteWithLayout
           component={NotFoundView}
