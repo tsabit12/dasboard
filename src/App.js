@@ -4,7 +4,11 @@ import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import { UserRouteWithLayout, GuesRouteWithLayout, AllRouteWithLayout } from './components/main';
 import theme from './theme';
-import { Main as MainLayout, Minimal as MinimalLayout } from './components/layouts';
+import { 
+  Main as MainLayout, 
+  Minimal as MinimalLayout,
+  MainQposin as MainQposinLayout 
+} from './components/layouts';
 import { chartjs } from './helpers';
 import './assets/scss/index.scss';
 import {
@@ -91,7 +95,7 @@ const App = ({ location }) => {
         <AllRouteWithLayout
           component={UserQposinView}
           exact
-          layout={MainLayout}
+          layout={MainQposinLayout}
           path="/qposin/user"
         />
         <AllRouteWithLayout

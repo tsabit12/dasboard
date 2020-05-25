@@ -1,16 +1,6 @@
 import axios from "axios";
 import md5 from "md5";
 const url = 'https://qcomm.posindonesia.co.id:10444';
-// const url2 = 'https://order.posindonesia.co.id/api/Dashboard';
-const url2 = 'http://10.32.41.90/api/Dashboard';
-
-// let config = {	
-// 	headers: { 
-//   		'content-type': 'application/json',
-//   		'accept': 'application/json'
-//   	}
-// } 
-
 
 const curdate = () => {
 	var now     = new Date(); 
@@ -49,6 +39,6 @@ export default {
 		...params,
 		hashing: getHashing(params.sp_nama, params.par_data)
 	}).then(res => res.data),
-	getJumlah: () => axios.post(`${url2}/jmlData`)
+	getJumlah: () => axios.post(`${process.env.REACT_APP_API}/qposin/jmlData`)
 		.then(res => res.data.result)
 }
