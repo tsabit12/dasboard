@@ -1,4 +1,4 @@
-import { GET_JUMLAH_USER_QPOSIN } from "../types";
+import { GET_JUMLAH_USER_QPOSIN, GET_USER_BY_CITY, GET_GRAPIK_ORDER, GET_REPORT_PRODUK } from "../types";
 
 const initialState = {
 	jmlData: {
@@ -6,7 +6,12 @@ const initialState = {
 		user: 0,
 		install: 0,
 		uninstall: 0,
-		update: 0
+		mobile: 0
+	},
+	city: [],
+	grafik: {
+		order: [],
+		produk: []
 	}
 }
 
@@ -20,7 +25,28 @@ export default function qposin(state=initialState, action={}){
 					user: action.data.jmluser,
 					install: action.data.installEvents,
 					uninstall: action.data.uninstallEvents,
-					update: action.data.updatesEvents
+					mobile: action.data.updatesEvents
+				}
+			}
+		case GET_USER_BY_CITY:
+			return{
+				...state,
+				city: action.data
+			}
+		case GET_GRAPIK_ORDER:
+			return{
+				...state,
+				grafik: {
+					...state.grafik,
+					order: action.data
+				}
+			}
+		case GET_REPORT_PRODUK:
+			return{
+				...state,
+				grafik: {
+					...state.grafik,
+					produk: action.data
 				}
 			}
 		default: return state;

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import UpdateIcon from '@material-ui/icons/Update';
+import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ const numberWithCommas = (number) => {
 }
 
 
-const TotalUpdate = props => {
+const TotalMobile = props => {
 	const classes = useStyles();
 	return(
 		<Card
@@ -58,13 +58,13 @@ const TotalUpdate = props => {
 			              gutterBottom
 			              variant="body2"
 			            >
-			              TOTAL UPDATE
+			              USER MOBILE
 			            </Typography>
 			            <Typography variant="h3">{numberWithCommas(props.total)}</Typography>
 		          	</Grid>
 		          	<Grid item>
 			            <Avatar className={classes.avatar}>
-			              <UpdateIcon className={classes.icon} />
+			              <SmartphoneIcon className={classes.icon} />
 			            </Avatar>
 			        </Grid>
 		        </Grid>
@@ -73,4 +73,4 @@ const TotalUpdate = props => {
 	);
 }
 
-export default TotalUpdate;
+export default TotalMobile;

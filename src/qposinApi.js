@@ -40,5 +40,11 @@ export default {
 		hashing: getHashing(params.sp_nama, params.par_data)
 	}).then(res => res.data),
 	getJumlah: () => axios.post(`${process.env.REACT_APP_API}/qposin/jmlData`)
-		.then(res => res.data.result)
+		.then(res => res.data.result),
+    getUserCity: () => axios.post(`${process.env.REACT_APP_API}/qposin/orderByKota`)
+        .then(res => res.data.result),
+    reportPerWeek: () => axios.post(`${process.env.REACT_APP_API}/qposin/reportPerWeek`)
+        .then(res => res.data.result),
+    getReportProduk: () => axios.post(`${process.env.REACT_APP_API}/qposin/summaryJenis`)
+        .then(res => res.data.result)
 }

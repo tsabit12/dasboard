@@ -10,3 +10,6 @@ export const GET_AREA = 'GET_AREA';
 export const GET_PKS = 'GET_PKS';
 export const GET_PERIODE_PKS = 'GET_PERIODE_PKS';
 export const GET_JUMLAH_USER_QPOSIN = 'GET_JUMLAH_USER_QPOSIN';
+export const GET_USER_BY_CITY = 'GET_USER_BY_CITY';
+export const GET_GRAPIK_ORDER = 'GET_GRAPIK_ORDER';
+export const GET_REPORT_PRODUK = 'GET_REPORT_PRODUK';
