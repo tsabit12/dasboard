@@ -40,7 +40,7 @@ const Brand = props => {
       <div className={classes.media}>
         <img
           alt="Upgrade to PRO"
-          src={`${process.env.REACT_APP_PUBLIC_URL}/images/GitHub-Mark-120px-plus.png`}
+          src={`${process.env.REACT_APP_PUBLIC_URL}/images/logos/posindo.png`}
         />
       </div>
       <div className={classes.content}>
@@ -49,14 +49,13 @@ const Brand = props => {
           gutterBottom
           variant="h6"
         >
-          tsabit12
+          PT POS INDONESIA
         </Typography>
         <Typography
           align="center"
           variant="body2"
         >
-        Created with love for the environment!
-        https://github.com/tsabit12/dashboard.git
+           ©IT SUPPORT BANGKURLOG 2020
         </Typography>
       </div>
     </div>

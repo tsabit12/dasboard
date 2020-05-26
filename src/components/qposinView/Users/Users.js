@@ -19,6 +19,9 @@ class Users extends React.Component{
 			par_data: '00|okeoke'
 		}
 		this.props.getJml(payload);
+		setTimeout(() => {
+			this.props.getUser(payload);
+		}, 100);
 	}
 
 	render(){
