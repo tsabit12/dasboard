@@ -34,8 +34,8 @@ const Profile = props => {
   const classes = useStyles();
 
   const user = {
-    name: 'ZOLD',
-    avatar: `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`,
+    name: 'ZOLDYCK',
+    avatar: `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_3.png`,
     bio: 'ADMINISTRATOR QPOSIN'
   };
 

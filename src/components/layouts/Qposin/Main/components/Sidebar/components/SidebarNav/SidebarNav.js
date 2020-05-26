@@ -10,7 +10,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@material-ui/core';
-import PeopleIcon from '@material-ui/icons/People';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -76,13 +76,13 @@ const SidebarNav = props => {
         button 
         activeClassName={classes.active}
         component={CustomRouterLink}
-        to='/qposin/user'
+        to='/qposin'
       >
         <ListItemIcon>
-          <PeopleIcon color={'primary'} />
+          <HomeIcon color={'primary'} />
         </ListItemIcon>
         <ListItemText className={classes.listText}>
-          <span className={classes.span}>USER</span>
+          <span className={classes.span}>HOME</span>
         </ListItemText>
       </ListItem>
     </List>

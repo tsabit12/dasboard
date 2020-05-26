@@ -12,16 +12,16 @@ const styles = theme => ({
 	}
 })
 
-class Users extends React.Component{
+class Home extends React.Component{
 	componentDidMount(){
 		const payload = {
 			sp_nama: 'sp_getreportuser',
 			par_data: '00|okeoke'
 		}
 		this.props.getJml(payload);
-		setTimeout(() => {
-			this.props.getUser(payload);
-		}, 100);
+		// setTimeout(() => {
+		// 	this.props.getUser(payload);
+		// }, 100);
 	}
 
 	render(){
@@ -77,4 +77,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getUser, getJml })(withStyles(styles)(Users));
+export default connect(mapStateToProps, { getUser, getJml })(withStyles(styles)(Home));

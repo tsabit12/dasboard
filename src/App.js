@@ -24,7 +24,7 @@ import {
 } from "./components/views";
 
 import {
-  Users as UserQposinView
+  Home as HomeQposinView
 } from "./components/qposinView";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -93,10 +93,10 @@ const App = ({ location }) => {
           path="/sales/sign-in"
         />
         <AllRouteWithLayout
-          component={UserQposinView}
+          component={HomeQposinView}
           exact
           layout={MainQposinLayout}
-          path="/qposin/user"
+          path="/qposin"
         />
         <AllRouteWithLayout
           component={NotFoundView}
