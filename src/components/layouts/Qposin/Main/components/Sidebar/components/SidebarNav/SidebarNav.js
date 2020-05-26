@@ -7,7 +7,8 @@ import {
   List, 
   ListItem, 
   colors,
-  Button
+  ListItemIcon,
+  ListItemText
 } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 
@@ -36,11 +37,19 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   active: {
-    color: theme.palette.primary.main,
-    fontWeight: theme.typography.fontWeightMedium,
-    '& $icon': {
-      color: theme.palette.primary.main
-    }
+    backgroundColor: 'rgba(216, 212, 212, 0.94)'
+  },
+  span: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: theme.palette.primary.main
+  },
+  listText: {
+    paddingRight: 9,
+    marginLeft: -9
+  },
+  nested: {
+    paddingLeft: theme.spacing(4)
   }
 }));
 
@@ -63,20 +72,19 @@ const SidebarNav = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-       <ListItem
-          className={classes.item}
-          disableGutters
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            to="/qposin/user"
-          >
-            <div className={classes.icon}><PeopleIcon /></div>
-            USER
-          </Button>
-        </ListItem>
+      <ListItem 
+        button 
+        activeClassName={classes.active}
+        component={CustomRouterLink}
+        to='/qposin/user'
+      >
+        <ListItemIcon>
+          <PeopleIcon color={'primary'} />
+        </ListItemIcon>
+        <ListItemText className={classes.listText}>
+          <span className={classes.span}>USER</span>
+        </ListItemText>
+      </ListItem>
     </List>
   );
 };

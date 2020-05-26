@@ -58,7 +58,7 @@ const TotalUser = props => {
 			              gutterBottom
 			              variant="body2"
 			            >
-			              TOTAL USER WEB & MOBILE
+			              USER WEB & MOBILE
 			            </Typography>
 			            <Typography variant="h3">{numberWithCommas(props.total)}</Typography>
 		          	</Grid>
