@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { getTopProduk } from "../../../actions/produk";
 import { Grid } from '@material-ui/core';
 
-import { BarChart, MessageInfo, TableProduk } from "./components";
+import { 
+	BarChart, 
+	//MessageInfo, 
+	TableProduk 
+} from "./components";
 
 const styles = theme => ({
 	root: {
@@ -41,7 +45,7 @@ class Dashboard extends React.Component{
 			    >
 				    <Grid
 			          item
-			          lg={9}
+			          lg={12}
 			          md={12}
 			          xl={12}
 			          xs={12}
@@ -53,15 +57,6 @@ class Dashboard extends React.Component{
 			        		showTable={() => this.setState({ table: !this.state.table })}
 			        		isShowTable={this.state.table}
 			        	/>
-			        </Grid>
-			        <Grid
-			        	item
-			        	lg={3}
-			        	md={12}
-			        	xl={12}
-			        	xs={12}
-			        >
-			        	<MessageInfo />
 			        </Grid>
 			        { this.state.table && <Grid
 			        	  item

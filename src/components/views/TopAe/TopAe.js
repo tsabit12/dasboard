@@ -6,7 +6,10 @@ import {
 } from '@material-ui/core';
 import PropTypes from "prop-types";
 import { withStyles } from '@material-ui/styles';
-import { TableAe, GrafikAe } from "./components";
+import { 
+	TableAe, 
+	//GrafikAe 
+} from "./components";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { connect } from "react-redux";
@@ -47,9 +50,9 @@ class TopAe extends React.Component{
 			        </Typography>
 			    </Breadcrumbs>
 				<Grid container spacing={2}>
-					<Grid item lg={12} md={12} xl={12} xs={12}>
+					{ /* <Grid item lg={12} md={12} xl={12} xs={12}>
 						<GrafikAe data={this.props.grafik} />
-					</Grid>
+					</Grid> */ }
 					<Grid item lg={12} md={12} xl={12} xs={12}>
 						<TableAe list={this.props.data} />
 					</Grid>

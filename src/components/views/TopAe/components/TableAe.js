@@ -12,7 +12,8 @@ import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
   root: {
-  	width: '100%'
+  	width: '100%',
+  	marginTop: '10px'
   },
   table: {
     minWidth: 650,

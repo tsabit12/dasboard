@@ -44,8 +44,8 @@ const TableGrafik = props => {
 		          </TableRow>
 		        </TableHead>
 	          <TableBody>
-		          {data.map((row) => (
-		            <TableRow key={row.deskripsi}>
+		          {data.map((row, i) => (
+		            <TableRow key={i}>
 		              <TableCell component="th" scope="row">
 		                {no++}
 		              </TableCell>
