@@ -62,7 +62,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12,
     fontWeight: 700,
     color: 'blue'
-  }
+  },
+  activeLink: {
+    backgroundColor: 'rgba(216, 212, 212, 0.94)'
+  },
 }));
 
 const CustomRouterLink = forwardRef((props, ref) => (
@@ -76,12 +79,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = props => {
   const [open, setOpen] = useState({
-    isOpen: {
-      top: true
-    },
-    active: {
-      produk: true
-    }
+    isOpen: {}
   });
   const { className, ...rest } = props;
 
@@ -94,19 +92,14 @@ const SidebarNav = props => {
     }
   }))
 
-  // const onExpand = () => setOpen({
-  //   ...open,
-  //   isOpen: !open.isOpen
-  // });
-
-  const handleClick = href => {
-    setOpen({
-      ...open,
-      active: {
-        [href]: true
-      }
-    })
-  }
+  // const handleClick = href => {
+  //   setOpen({
+  //     ...open,
+  //     active: {
+  //       [href]: true
+  //     }
+  //   })
+  // }
 
   return (
     <List
@@ -123,82 +116,83 @@ const SidebarNav = props => {
         {open.isOpen.top ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open.isOpen.top} timeout="auto" unmountOnExit>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('produk')}
+        <ListItem 
+          button 
+          className={classes.nested}
           component={CustomRouterLink}
-          to='/'
+          activeClassName={classes.activeLink}
+          to='/home-sales'
         >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <GradeSharpIcon color={open.active.produk ? 'primary' : ''} />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.produk ? classes.active : classes.span }>TOP PRODUK</span>
-            </ListItemText>
-          </ListItem>
-        </List>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('regional')}
+          <ListItemIcon>
+            <GradeSharpIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>TOP PRODUK</span>
+          </ListItemText>
+        </ListItem>
+
+        <ListItem 
+          button 
+          className={classes.nested}
           component={CustomRouterLink}
+          activeClassName={classes.activeLink}
           to='/sales/top-reg'
         >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <TrendingUpIcon color={open.active.regional ? 'primary' : ''} />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.regional ? classes.active : classes.span }>TOP REGIONAL</span>
-            </ListItemText>
-          </ListItem>
-        </List>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('kprk')}
+          <ListItemIcon>
+            <TrendingUpIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>TOP REGIONAL</span>
+          </ListItemText>
+        </ListItem>
+        
+        <ListItem 
+          button 
+          className={classes.nested}
           component={CustomRouterLink}
+          activeClassName={classes.activeLink}
           to='/sales/top-kprk'
         >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <TrendingUpIcon color={open.active.kprk ? 'primary' : ''}  />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.kprk ? classes.active : classes.span }>TOP 10 KANTOR POS</span>
-            </ListItemText>
-          </ListItem>
-        </List>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('ae')}
+          <ListItemIcon>
+            <TrendingUpIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span }>TOP 10 KANTOR POS</span>
+          </ListItemText>
+        </ListItem>
+        
+        <ListItem 
+            button 
+            className={classes.nested}
+            component={CustomRouterLink}
+            activeClassName={classes.activeLink}
+            to='/sales/top-ae'
+          >
+          <ListItemIcon>
+            <PeopleSharpIcon  />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>TOP 100 AE</span>
+          </ListItemText>
+        </ListItem>
+        
+        <ListItem 
+          button 
+          className={classes.nested}
           component={CustomRouterLink}
-          to='/sales/top-ae'
-        >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <PeopleSharpIcon color={open.active.ae ? 'primary' : ''}  />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.ae ? classes.active : classes.span }>TOP 100 AE</span>
-            </ListItemText>
-          </ListItem>
-        </List>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('minus')}
-          component={CustomRouterLink}
+          activeClassName={classes.activeLink}
           to='/sales/ae'
         >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <WarningIcon color={open.active.minus ? 'primary' : ''}  />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.minus ? classes.active : classes.span }>AE DIBAWAH 15JT</span>
-            </ListItemText>
-          </ListItem>
-        </List>
+          <ListItemIcon>
+            <WarningIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>AE DIBAWAH 15JT</span>
+          </ListItemText>
+        </ListItem>
+
       </Collapse>
+      
       <ListItem button onClick={() => onExpand('report')}>
         <ListItemIcon>
           <AssignmentTurnedInIcon />
@@ -209,21 +203,20 @@ const SidebarNav = props => {
         {open.isOpen.report ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open.isOpen.report} timeout="auto" unmountOnExit>
-        <List 
-          disablePadding 
-          onClick={() => handleClick('pks')}
+        <ListItem 
+          button 
+          className={classes.nested}
           component={CustomRouterLink}
+          activeClassName={classes.activeLink}
           to='/sales/list-pks'
         >
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <WatchLaterIcon color={open.active.pks ? 'primary' : ''} />
-            </ListItemIcon>
-            <ListItemText className={classes.listText}>
-              <span className={open.active.pks ? classes.active : classes.span }>DAFTAR PKS</span>
-            </ListItemText>
-          </ListItem>
-        </List>
+          <ListItemIcon>
+            <WatchLaterIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>DAFTAR PKS</span>
+          </ListItemText>
+        </ListItem>
       </Collapse>
     </List>
   );

@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4)
   },
   content: {
-    paddingTop: 150,
+    paddingTop: 100,
     textAlign: 'center'
   },
   image: {
@@ -30,16 +30,15 @@ const NotFound = () => {
       >
         <Grid
           item
-          lg={6}
+          lg={7}
           xs={12}
         >
           <div className={classes.content}>
             <Typography variant="h1">
-              404: The page you are looking for isn’t here
+              Halaman yang anda cari tidak ada di sini
             </Typography>
             <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
+              Anda mencoba mengakses url secara langsung atau anda datang ke sini karena kesalahan. Apa pun itu, coba gunakan navigasi
             </Typography>
             <img
               alt="Under development"

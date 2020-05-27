@@ -19,7 +19,7 @@ import {
   TopReg as TopRegView,
   TopKprk as TopKprkView,
   Ae as AeView,
-  IndexV as IndexView,
+  // IndexV as IndexView,
   Pks as PksView
 } from "./components/views";
 
@@ -36,19 +36,19 @@ const App = ({ location }) => {
   return(
     <ThemeProvider theme={theme}>
       <Switch>
-        <GuesRouteWithLayout
+        { /* <GuesRouteWithLayout
           location={location}
           component={IndexView}
           exact
           layout={MinimalLayout}
           path="/"
-        />
+        /> */ }
         <GuesRouteWithLayout
           location={location}
           component={DashboardView}
           exact
           layout={MainLayout}
-          path="/sales/home"
+          path="/home-sales"
         />
         <GuesRouteWithLayout
           location={location}
