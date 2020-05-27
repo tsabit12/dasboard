@@ -4,3 +4,4 @@ export { default as TotalInstall } from "./TotalInstall";
 export { default as TotalUninstall } from "./TotalUninstall";
 export { default as Grafik } from "./Grafik";
 export { default as ProdukReport } from "./ProdukReport";
+export { default as TotalWeb } from "./TotalWeb";

@@ -34,6 +34,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const numberWithCommas = (number) => {
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 const ProdukReport = props => {
 	const classes = useStyles();
@@ -71,8 +74,8 @@ const ProdukReport = props => {
   					data,
 			        backgroundColor,
 			        borderWidth: 8,
-			        borderColor: theme.palette.white,
-			        hoverBorderColor: theme.palette.white
+			        borderColor: '#FFFFFF',
+			        hoverBorderColor: '#FFFFFF'
   				}],
   				labels
   			}))
@@ -127,12 +130,12 @@ const ProdukReport = props => {
 		              className={classes.device}
 		              key={row.layanan}
 		            >
-		              <Typography variant="body2" style={{whiteSpace: 'nowrap'}}>{row.layanan}</Typography>
+		              <Typography variant="body1" style={{whiteSpace: 'nowrap'}}>{row.layanan}</Typography>
 		              <Typography
 		                style={{ color: row.color }}
 		                variant="h5"
 		              >
-		                {row.jumlah}
+		                {numberWithCommas(row.jumlah)}
 		              </Typography>
 		            </div>
 		        ))}

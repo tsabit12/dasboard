@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ShopIcon from '@material-ui/icons/Shop';
+import PublicIcon from '@material-ui/icons/Public';
 import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 700
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.warning.main,
     height: 56,
     width: 56
   },
@@ -43,7 +43,7 @@ const numberWithCommas = (number) => {
 }
 
 
-const TotalInstall = props => {
+const TotalWeb = props => {
 	const classes = useStyles();
 	return(
 		<Card
@@ -58,13 +58,13 @@ const TotalInstall = props => {
 			              gutterBottom
 			              variant="body2"
 			            >
-			              TOTAL DOWNLOAD
+			              USER WEB
 			            </Typography>
 			            <Typography variant="h3">{numberWithCommas(props.total)}</Typography>
 		          	</Grid>
 		          	<Grid item>
 			            <Avatar className={classes.avatar}>
-			              <ShopIcon className={classes.icon} />
+			              <PublicIcon className={classes.icon} />
 			            </Avatar>
 			        </Grid>
 		        </Grid>
@@ -73,4 +73,4 @@ const TotalInstall = props => {
 	);
 }
 
-export default TotalInstall;
+export default TotalWeb;

@@ -14,7 +14,8 @@ import {
 	TotalMobile, 
 	TotalInstall, 
 	Grafik,
-	ProdukReport
+	ProdukReport,
+	TotalWeb
 } from "./components";
 
 
@@ -43,39 +44,48 @@ class Home extends React.Component{
 		return(
 			<div elevation={0} className={classes.root}>
 				<Grid container spacing={4}>
-			        <Grid
+			       	<Grid
 			          item
-			          lg={4}
-			          sm={4}
-			          xl={4}
+			          lg={3}
+			          sm={12}
+			          xl={12}
 			          xs={12}
 			        >
-			          <TotalUser total={jumlah.user} />
+			          <TotalInstall total={jumlah.install} />
 			       	</Grid>
 			       	<Grid
 			          item
-			          lg={4}
-			          sm={4}
-			          xl={4}
+			          lg={3}
+			          sm={12}
+			          xl={12}
 			          xs={12}
 			        >
 			          <TotalMobile total={jumlah.mobile} />
 			       	</Grid>
 			       	<Grid
 			          item
-			          lg={4}
-			          sm={4}
-			          xl={4}
+			          lg={3}
+			          sm={12}
+			          xl={12}
 			          xs={12}
 			        >
-			          <TotalInstall total={jumlah.install} />
+			          <TotalWeb total={jumlah.uninstall} />
+			       	</Grid>
+			        <Grid
+			          item
+			          lg={3}
+			          sm={12}
+			          xl={12}
+			          xs={12}
+			        >
+			          <TotalUser total={jumlah.user} />
 			       	</Grid>
 			    </Grid>
 			    <Grid container spacing={4}>
 			    	<Grid
 			          item
 			          lg={8}
-			          sm={8}
+			          sm={12}
 			          xl={12}
 			          xs={12}
 			        >
@@ -84,7 +94,7 @@ class Home extends React.Component{
 			       	<Grid
 			          item
 			          lg={4}
-			          sm={4}
+			          sm={12}
 			          xl={12}
 			          xs={12}
 			        >
