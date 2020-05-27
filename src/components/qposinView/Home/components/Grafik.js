@@ -35,8 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Grafik = props => {
-	const { list } = props;
-	// const [open, setOpen] = React.useState(false);
+	const { list, search } = props;
   	const anchorRef = React.useRef(null);
   	// const [activeMenu, setActive] = React.useState('WEB & MOBILE');
 
@@ -54,43 +53,47 @@ const Grafik = props => {
 		active: {
 			open: false,
 			name: 'WEB & MOBILE'
-		}
+		},
+		loading: true
 	})
 
 	React.useEffect(() => {
-		if (list.length > 0) {
-			const labels 	= [];
-			const totalPickup 	= [];
-			const totalOrder 	= [];
-			const totalTrans 	= [];
-			list.forEach(row => {
-				labels.push(row.hari);
-				totalPickup.push(Number(row.totpickup));
-				totalOrder.push(Number(row.totorder));
-				totalTrans.push(Number(row.tottrans));
-			});
+		if (search !== '') {
+			if (list[search].length > 0) {
+				const labels 	= [];
+				const totalPickup 	= [];
+				const totalOrder 	= [];
+				const totalTrans 	= [];
+				list[search].forEach(row => {
+					labels.push(row.hari);
+					totalPickup.push(Number(row.totpickup));
+					totalOrder.push(Number(row.totorder));
+					totalTrans.push(Number(row.tottrans));
+				});
 
-			setState(prevState => ({
-				...prevState,
-				data: {
-					labels,
-					datasets: [{
-							label: 'Order',
-							backgroundColor: palette.primary.main,
-							data: totalOrder
-						},{
-							label: 'Pickup',
-							backgroundColor: palette.success.main,
-							data: totalPickup
-						},{
-							label: 'Transaksi',
-							backgroundColor: palette.error.main,
-							data: totalTrans
-					}]
-				}
-			}))
+				setState(prevState => ({
+					...prevState,
+					data: {
+						labels,
+						datasets: [{
+								label: 'Order',
+								backgroundColor: palette.primary.main,
+								data: totalOrder
+							},{
+								label: 'Pickup',
+								backgroundColor: palette.success.main,
+								data: totalPickup
+							},{
+								label: 'Transaksi',
+								backgroundColor: palette.error.main,
+								data: totalTrans
+						}]
+					},
+					loading: false
+				}))
+			}
 		}
-	}, [list])
+	}, [list, search])
 
 	const classes = useStyles();
 
@@ -118,14 +121,22 @@ const Grafik = props => {
 		}))
 	};
 
-	const onChangeMenu = (event, name) => {
+	const onChangeMenu = (event, name, jenis, alias) => {
 		setState(prevState => ({
 			...prevState,
 			active: {
 				open: false,
 				name: name
-			}
-		}))
+			},
+			loading: true
+		}));
+
+		const payload = {
+			jenis,
+			name: alias
+		}
+
+		props.getNewGrafik(payload)
 	}
 
 	function handleListKeyDown(event) {
@@ -177,9 +188,23 @@ const Grafik = props => {
 				              <Paper>
 				                <ClickAwayListener onClickAway={handleClose}>
 				                  <MenuList autoFocusItem={formState.active.open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-				                    <MenuItem onClick={(e) => onChangeMenu(e, 'WEB & MOBILE')}>WEB & MOBILE</MenuItem>
-				                    <MenuItem onClick={(e) => onChangeMenu(e, 'MOBILE')}>MOBILE</MenuItem>
-				                    <MenuItem onClick={(e) => onChangeMenu(e, 'WEB')}>WEB</MenuItem>
+				                    <MenuItem 
+				                    	onClick={(e) => onChangeMenu(e, 'WEB & MOBILE', 3, 'all')}
+				                    >
+				                    	WEB & MOBILE
+				                    </MenuItem>
+
+				                    <MenuItem 
+				                    	onClick={(e) => onChangeMenu(e, 'MOBILE', 1, 'mobile')}
+				                    >
+				                    	MOBILE
+				                    </MenuItem>
+
+				                    <MenuItem 
+				                    	onClick={(e) => onChangeMenu(e, 'WEB', 2, 'web')}
+				                    >
+				                    	WEB
+				                    </MenuItem>
 				                  </MenuList>
 				                </ClickAwayListener>
 				              </Paper>
@@ -188,7 +213,7 @@ const Grafik = props => {
 				        </Popper>
 		          	</div>
 		        }
-		        title="REPORT ORDER 7 HARI TERAKHIR"
+		        title={`REPORT ORDER 7 HARI TERAKHIR ${formState.loading ? '(loading...)' :  ''}`}
 		    />
 			<Divider />
 			<CardContent>
@@ -204,7 +229,9 @@ const Grafik = props => {
 }
 
 Grafik.propTypes = {
-	list: PropTypes.array.isRequired
+	list: PropTypes.object.isRequired,
+	search: PropTypes.string.isRequired,
+	getNewGrafik: PropTypes.func.isRequired
 }
 
 export default Grafik;

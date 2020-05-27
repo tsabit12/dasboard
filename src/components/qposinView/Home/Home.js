@@ -27,20 +27,25 @@ const styles = theme => ({
 
 class Home extends React.Component{
 	componentDidMount(){
-		// const payload = {
-		// 	sp_nama: 'sp_getreportuser',
-		// 	par_data: '00|okeoke'
-		// }
+		
+		const payload = {
+			jenis: 3,
+			name: 'all'
+		}
+
 		this.props.getJml();
+		
 		setTimeout(() => {
-			this.props.reportPerWeek()
+			this.props.reportPerWeek(payload)
 				.then(() => this.props.getReportProduk())
 				.catch(err => alert("FAILED GET GRAFIK"))
 		}, 100);
 	}
 
+	handleChangeGrafik = (payload) => this.props.reportPerWeek(payload);
+
 	render(){
-		const { classes, jumlah, grafik, produk } = this.props;
+		const { classes, jumlah, grafik, produk, search } = this.props;
 		return(
 			<div elevation={0} className={classes.root}>
 				<Grid container spacing={4}>
@@ -89,7 +94,11 @@ class Home extends React.Component{
 			          xl={12}
 			          xs={12}
 			        >
-			          <Grafik list={grafik} />
+			          <Grafik 
+			          	list={grafik} 
+			          	search={search} 
+			          	getNewGrafik={this.handleChangeGrafik}
+			          />
 			       	</Grid>
 			       	<Grid
 			          item
@@ -108,18 +117,20 @@ class Home extends React.Component{
 
 Home.propTypes = {
 	jumlah: PropTypes.object.isRequired,
-	grafik: PropTypes.array.isRequired,
+	grafik: PropTypes.object.isRequired,
 	reportPerWeek: PropTypes.func.isRequired,
 	getReportProduk: PropTypes.func.isRequired,
 	getJml: PropTypes.func.isRequired,
-	produk: PropTypes.array.isRequired
+	produk: PropTypes.array.isRequired,
+	search: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		jumlah: state.qposin.jmlData,
 		grafik: state.qposin.grafik.order,
-		produk: state.qposin.grafik.produk
+		produk: state.qposin.grafik.produk,
+		search: state.qposin.grafik.searchParams
 	}
 }
 

@@ -43,8 +43,9 @@ export default {
 		.then(res => res.data.result),
     getUserCity: () => axios.post(`${process.env.REACT_APP_API}/qposin/orderByKota`)
         .then(res => res.data.result),
-    reportPerWeek: () => axios.post(`${process.env.REACT_APP_API}/qposin/reportPerWeek`)
-        .then(res => res.data.result),
+    reportPerWeek: (payload) => axios.post(`${process.env.REACT_APP_API}/qposin/reportPerWeek`, {
+        ...payload
+    }).then(res => res.data.result),
     getReportProduk: () => axios.post(`${process.env.REACT_APP_API}/qposin/summaryJenis`)
         .then(res => res.data.result)
 }

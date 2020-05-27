@@ -10,8 +10,13 @@ const initialState = {
 	},
 	city: [],
 	grafik: {
-		order: [],
-		produk: []
+		order: {
+			web: [],
+			mobile: [],
+			all: []
+		},
+		produk: [],
+		searchParams: ''
 	}
 }
 
@@ -38,7 +43,11 @@ export default function qposin(state=initialState, action={}){
 				...state,
 				grafik: {
 					...state.grafik,
-					order: action.data
+					order: {
+						...state.grafik.order,
+						[action.payload.name]: action.data
+					},
+					searchParams: action.payload.name
 				}
 			}
 		case GET_REPORT_PRODUK:

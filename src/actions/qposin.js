@@ -20,11 +20,12 @@ export const getUserCity = () => dispatch =>
 			data
 		}))
 
-export const reportPerWeek = () => dispatch =>
-	qposinApi.reportPerWeek()
+export const reportPerWeek = (payload) => dispatch =>
+	qposinApi.reportPerWeek(payload)
 		.then(data => dispatch({
 			type: GET_GRAPIK_ORDER,
-			data
+			data,
+			payload
 		}))
 
 export const getReportProduk = () => dispatch =>
