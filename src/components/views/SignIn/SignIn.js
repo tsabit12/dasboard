@@ -188,7 +188,7 @@ const SignIn = props => {
     }));
 
     loggedIn(formState.values)
-      .then(() => history.push('/'))
+      .then(() => history.push('/home-sales'))
       .catch(err => {
         if (!err.response) {
           setFormState(formState => ({
