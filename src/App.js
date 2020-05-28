@@ -37,13 +37,13 @@ const App = ({ location }) => {
   return(
     <ThemeProvider theme={theme}>
       <Switch>
-        { <GuesRouteWithLayout
+        <AllRouteWithLayout
           location={location}
           component={IndexView}
           exact
           layout={HomeLayout}
           path="/"
-        /> }
+        />
         <GuesRouteWithLayout
           location={location}
           component={DashboardView}
