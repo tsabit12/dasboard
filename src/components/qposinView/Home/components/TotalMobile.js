@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import clsx from "clsx";
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +36,12 @@ const useStyles = makeStyles(theme => ({
   differenceValue: {
     color: theme.palette.error.dark,
     marginRight: theme.spacing(1)
+  },
+  backdrop: {
+    position: 'relative',
+    background: 'black',
+    opacity: 0.5,
+    borderRadius: '5px' 
   }
 }));
 
@@ -44,32 +51,40 @@ const numberWithCommas = (number) => {
 
 
 const TotalMobile = props => {
+  const { total } = props;
 	const classes = useStyles();
 	return(
-		<Card
-	      className={clsx(classes.root)}
-	    >
-	    	<CardContent>
-		        <Grid container justify="space-between">
-		        	<Grid item>
-			            <Typography
-			              className={classes.title}
-			              color="textSecondary"
-			              gutterBottom
-			              variant="body2"
-			            >
-			              USER MOBILE
-			            </Typography>
-			            <Typography variant="h3">{numberWithCommas(props.total)}</Typography>
-		          	</Grid>
-		          	<Grid item>
-			            <Avatar className={classes.avatar}>
-			              <SmartphoneIcon className={classes.icon} />
-			            </Avatar>
-			        </Grid>
-		        </Grid>
-		    </CardContent>
-		</Card>
+    <div className={ total === 0 ? classes.backdrop : ''}>
+  		<Card
+  	      className={clsx(classes.root)}
+  	    >
+  	    	<CardContent>
+  		        <Grid container justify="space-between">
+  		        	<Grid item>
+  			            <Typography
+  			              className={classes.title}
+  			              color="textSecondary"
+  			              gutterBottom
+  			              variant="body2"
+  			            >
+  			              USER MOBILE
+  			            </Typography>
+  			            { total === 0 ? <Loader
+                       type="TailSpin"
+                       color="#00BFFF"
+                       height={35}
+                       width={35}
+                    /> : <Typography variant="h3">{numberWithCommas(props.total)}</Typography> }
+  		          	</Grid>
+  		          	<Grid item>
+  			            <Avatar className={classes.avatar}>
+  			              <SmartphoneIcon className={classes.icon} />
+  			            </Avatar>
+  			        </Grid>
+  		        </Grid>
+  		    </CardContent>
+  		</Card>
+    </div>
 	);
 }
 

@@ -23,6 +23,7 @@ import rootReducers from "./rootReducers";
 
 import decode from "jwt-decode";
 import { userLoggedIn } from "./actions/auth";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const store = createStore(
 	rootReducers,
