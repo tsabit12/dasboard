@@ -7,7 +7,8 @@ import theme from './theme';
 import { 
   Main as MainLayout, 
   Minimal as MinimalLayout,
-  MainQposin as MainQposinLayout 
+  MainQposin as MainQposinLayout,
+  Home as HomeLayout
 } from './components/layouts';
 import { chartjs } from './helpers';
 import './assets/scss/index.scss';
@@ -19,7 +20,7 @@ import {
   TopReg as TopRegView,
   TopKprk as TopKprkView,
   Ae as AeView,
-  // IndexV as IndexView,
+  IndexV as IndexView,
   Pks as PksView
 } from "./components/views";
 
@@ -36,13 +37,13 @@ const App = ({ location }) => {
   return(
     <ThemeProvider theme={theme}>
       <Switch>
-        { /* <GuesRouteWithLayout
+        { <GuesRouteWithLayout
           location={location}
           component={IndexView}
           exact
-          layout={MinimalLayout}
+          layout={HomeLayout}
           path="/"
-        /> */ }
+        /> }
         <GuesRouteWithLayout
           location={location}
           component={DashboardView}
