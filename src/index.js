@@ -25,6 +25,9 @@ import decode from "jwt-decode";
 import { userLoggedIn } from "./actions/auth";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 const store = createStore(
 	rootReducers,
 	composeWithDevTools(applyMiddleware(thunk))
@@ -42,9 +45,11 @@ if (localStorage.dashboardSales) {
 
 ReactDOM.render(
   	<HashRouter>
-		<Provider store={store}>
-			<Route component={App} /> 
-		</Provider>
+		<MuiPickersUtilsProvider utils={MomentUtils}>
+			<Provider store={store}>
+					<Route component={App} /> 
+			</Provider>
+		</MuiPickersUtilsProvider>
 	</HashRouter>, 
   document.getElementById('root')
 );

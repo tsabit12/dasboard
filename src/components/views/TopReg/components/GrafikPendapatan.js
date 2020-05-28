@@ -12,15 +12,18 @@ import { makeStyles } from '@material-ui/styles';
 import clsx from "clsx";
 import palette from '../../../../theme/palette';
 import { options } from "../../Dashboard/components/options";
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles(() => ({
   root: {
-  	height: '100%',
-  	marginTop: '10px'
+  	height:'100%'
   },
   chartContainer: {
     position: 'relative',
-    height: '500px'
+    height: '450px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   linear: {
   	marginTop: -18,
@@ -44,7 +47,7 @@ const GrafikPendapatan = props => {
 		}
 	})
 
-	const { className, data, ...rest } = props;
+	const { className, data, param, ...rest } = props;
 	
 	React.useEffect(() => {
 		if (data.length > 0) {
@@ -79,19 +82,27 @@ const GrafikPendapatan = props => {
 	}, [data])
 
 	const classes = useStyles();
+
 	return(
 		<Card
 		  {...rest}
 		  className={clsx(classes.root, className)}
 		>
-			<CardHeader title="TOP REGIONAL BULAN INI"/>
+			<CardHeader title={`TOP REGIONAL PERIODE ${param}`}/>
 		    <Divider />
 		    <CardContent>
 		    	<div className={classes.chartContainer}>
-		    		<Bar
-			            data={formState.data}
-			            options={options}
-			        />
+		    		{ data.length === 0 ? 
+			    		<Loader
+			                type="TailSpin"
+			                color="#00BFFF"
+			                height={200}
+			                width={200}
+			            /> : <Bar
+					            data={formState.data}
+					            options={options}
+					/>}
+		    		
 		    	</div>
 		    </CardContent>
 		</Card>
@@ -100,7 +111,8 @@ const GrafikPendapatan = props => {
 
 GrafikPendapatan.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  param: PropTypes.string.isRequired
 }
 
 export default GrafikPendapatan;

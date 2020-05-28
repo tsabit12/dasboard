@@ -17,8 +17,8 @@ export default {
 		getProduk: () =>
 			axios.post(`${process.env.REACT_APP_API}/getProduk`)
 				.then(res => res.data.result),
-		getToReg: () => 
-			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`)
+		getToReg: (payload) => 
+			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`, { ...payload })
 				.then(res => res.data.result),
 		getTopKrpk: () =>
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`)

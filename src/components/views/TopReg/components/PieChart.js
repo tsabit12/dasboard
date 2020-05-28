@@ -5,7 +5,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Typography,
   Divider
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/styles'; 
@@ -15,30 +14,19 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%',
-    marginTop: '10px'
+    height: '100%'    
   },
   chartContainer: {
     position: 'relative',
     height: '400px'
-  },
-  stats: {
-    marginTop: theme.spacing(2),
-    display: 'flex',
-    //justifyContent: 'center'
-  },
-  device: {
-    textAlign: 'center',
-    padding: theme.spacing(1)
-  },
-  deviceIcon: {
-    color: theme.palette.icon
   }
 }));
 
 
 const PieChart = props => {
 	const theme = useTheme();
+	const { data } = props;
+	const classes = useStyles();
 
 	const [formState, setState] = React.useState({
 		pie: {
@@ -55,9 +43,6 @@ const PieChart = props => {
 		},
 		office: []
 	})
-
-	const { className, data, ...rest } = props;
-	const classes = useStyles();
 	
 	React.useEffect(() => {
 		if (data.length > 0) {
@@ -103,9 +88,9 @@ const PieChart = props => {
 	}, [data]);
 
   	const options = {
-	    legend: {
-	      display: false
-	    },
+	    // legend: {
+	    //   display: false
+	    // },
 	    responsive: true,
 	    maintainAspectRatio: false,
 	    animation: false,
@@ -124,47 +109,23 @@ const PieChart = props => {
 	 	}
 	};
 
-
 	return(
-		<Card
-		  {...rest}
-		  className={clsx(classes.root, className)}
-		>
+		<Card className={clsx(classes.root)}>
 			<CardHeader title="PERSENTASE"/>
 		    <Divider />
 		    <CardContent>
 		    	<div className={classes.chartContainer}>
-		    		 <Doughnut
+		    		<Doughnut
 			            data={formState.pie}
 			            options={options}
-			          />
+			        />
 		    	</div>
 		    </CardContent>
-	    	<div className={classes.stats} style={{overflowY: 'auto'}}>
-	    		{ formState.office.length > 0 && <React.Fragment>
-	    			{formState.office.map(device => (
-			            <div
-			              className={classes.device}
-			              key={device.title}
-			            >
-			              <span className={classes.deviceIcon}>{device.icon}</span>
-			              <Typography variant="body2">{device.title}</Typography>
-			              <Typography
-			                style={{ color: device.color }}
-			                variant="h4"
-			              >
-			                {device.value}%
-			              </Typography>
-			            </div>
-			          ))}
-	    		</React.Fragment> }
-	        </div>
 		</Card>
 	);
 }
 
 PieChart.propTypes = {
-  className: PropTypes.string,
   data: PropTypes.array.isRequired
 }
 
