@@ -11,7 +11,8 @@ import {
 	Backdrop,
   	CircularProgress,
   	FormHelperText,
-  	Grid
+  	Grid,
+  	Paper
 } from '@material-ui/core';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
@@ -218,6 +219,7 @@ class Pks extends React.Component{
 			          DAFTAR PKS
 			        </Typography>
 			    </Breadcrumbs>
+			    <Paper>
 				    <form className={classes.rootForm} autoComplete="off">
 				    	<FormControl className={classes.formControl}>
 	        				<InputLabel htmlFor="reg-id">AREA PENJUALAN</InputLabel>
@@ -273,19 +275,22 @@ class Pks extends React.Component{
 						    	</Select>}
 	        			</FormControl>
 	        			<div style={{marginLeft: '20px', alignSelf:'center', justifyContent: 'center'}}>
-				    	<Button color="primary" onClick={this.onSubmit} variant="contained">TAMPILKAN</Button>
+				    		<Button color="primary" onClick={this.onSubmit} variant="contained">TAMPILKAN</Button>
 				    	</div>
 				    </form>
-				    <Grid container spacing={4}>
-				    	<Grid item lg={12} md={12} xl={12} xs={12}>
-				    		{ this.props.datapks.length > 0 && <Typography variant="body2" style={{color: 'red'}}>
-				    			TOTAL = {this.props.datapks.length}</Typography> }
-				    		<TablePks 
-				    			data={this.props.datapks} 
-				    			errors={errors}
-				    		/>
-				    	</Grid>
-				    </Grid>
+				    { this.props.datapks.length > 0 && 
+				    	<Typography variant="body2" style={{color: 'red', margin: '10px'}}>
+			    			TOTAL = {this.props.datapks.length}
+			    		</Typography> }
+				</Paper>
+			    <Grid container spacing={4}>
+			    	<Grid item lg={12} md={12} xl={12} xs={12}>
+			    		<TablePks 
+			    			data={this.props.datapks} 
+			    			errors={errors}
+			    		/>
+			    	</Grid>
+			    </Grid>
 			</div>
 		);
 	}
