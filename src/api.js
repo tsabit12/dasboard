@@ -25,8 +25,8 @@ export default {
 				.then(res => res.data.result)
 	},
 	ae: {
-		getTop: () =>
-			axios.post(`${process.env.REACT_APP_API}/ae`)
+		getTop: (payload) =>
+			axios.post(`${process.env.REACT_APP_API}/ae/getTop100`, { ...payload })
 				.then(res => res.data),
 		getMinus: (payload) => 
 			axios.post(`${process.env.REACT_APP_API}/ae/getMinus15`, {

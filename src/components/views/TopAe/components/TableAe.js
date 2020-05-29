@@ -41,7 +41,7 @@ const TableAe = props => {
 		        <TableBody>
 		        	{ list.length === 0 ? <TableRow> 
 		        		<TableCell component="th" scope="row" colSpan={4}>
-		        			Loading....
+		        			Data kosong
 		        		</TableCell>
 		        	</TableRow> : <React.Fragment>
 		        		{list.map((row) => (

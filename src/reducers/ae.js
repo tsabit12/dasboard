@@ -8,6 +8,10 @@ const initialStae = {
 		limit: null,
 		data: {},
 		totalRow: 0
+	},
+	searchParamTop: {
+		start: null,
+		end: null
 	}
 }
 
@@ -17,7 +21,11 @@ export default function ae(state=initialStae, action={}) {
 			return{
 				...state,
 				top: action.data,
-				grafikTop: action.grafik
+				grafikTop: action.grafik,
+				searchParamTop: {
+					start: action.startDate,
+					end: action.endDate
+				}
 			}
 		case GET_MINUS_AE:
 			return{
