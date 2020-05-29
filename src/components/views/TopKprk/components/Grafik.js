@@ -15,8 +15,7 @@ import { options } from "../../Dashboard/components/options";
 
 const useStyles = makeStyles(() => ({
   root: {
-  	height: '100%',
-  	marginTop: '10px'
+  	height: '100%'
   },
   chartContainer: {
     position: 'relative',
@@ -43,7 +42,7 @@ const Grafik = props => {
 		}
 	})
 
-	const { className, data, ...rest } = props;
+	const { className, data, param, ...rest } = props;
 
 	React.useEffect(() => {
 		if (data.length > 0) {
@@ -78,7 +77,7 @@ const Grafik = props => {
 		  {...rest}
 		  className={clsx(classes.root, className)}
 		>
-			<CardHeader title="TOP KANTOR POS BULAN INI"/>
+			<CardHeader title={`TOP KANTOR POS PERIODE ${param}`}/>
 		    <Divider />
 		    <CardContent>
 		    	<div className={classes.chartContainer}>

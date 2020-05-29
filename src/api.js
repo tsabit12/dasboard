@@ -20,8 +20,8 @@ export default {
 		getToReg: (payload) => 
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`, { ...payload })
 				.then(res => res.data.result),
-		getTopKrpk: () =>
-			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`)
+		getTopKrpk: (payload) =>
+			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`, { ...payload })
 				.then(res => res.data.result)
 	},
 	ae: {

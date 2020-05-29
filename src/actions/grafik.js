@@ -9,9 +9,10 @@ export const getToReg = (payload) => dispatch =>
 			payload
 		}))
 
-export const getTopKrpk = () => dispatch =>
-	api.grafik.getTopKrpk()
+export const getTopKrpk = (payload) => dispatch =>
+	api.grafik.getTopKrpk(payload)
 		.then(data => dispatch({
 			type: GET_TOP_KPRK,
-			data
+			data,
+			payload
 		}))
