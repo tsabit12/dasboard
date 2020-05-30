@@ -6,26 +6,24 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Divider,
-  Button,
   LinearProgress,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  DialogActions
+  // Dialog,
+  // DialogContent,
+  // DialogContentText,
+  // DialogTitle,
+  // DialogActions
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'; 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { options } from "./options";
 import palette from '../../../../theme/palette';
 
 const useStyles = makeStyles(() => ({
-  root: {},
+  root: {
+  	height: '100%'
+  },
   chartContainer: {
-    height: 400,
+    height: '500px',
     position: 'relative'
   },
   actions: {
@@ -38,48 +36,48 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const ModalDialog = props => {
-	const [open, setOpen] = React.useState(true);
+// const ModalDialog = props => {
+// 	const [open, setOpen] = React.useState(true);
 
-	const handleTryAgain = () => {
-		setOpen(false);
-		props.tryAgain();
-	}
+// 	const handleTryAgain = () => {
+// 		setOpen(false);
+// 		props.tryAgain();
+// 	}
 
-	const handleClose = () => {
-		setOpen(false);
-		props.onClose();
-	}
+// 	const handleClose = () => {
+// 		setOpen(false);
+// 		props.onClose();
+// 	}
 
-	return(
-		<Dialog
-	        open={open}
-	        aria-labelledby="alert-dialog-title"
-	        aria-describedby="alert-dialog-description"
-	        maxWidth='xs'
-	      >
-	        <DialogTitle id="alert-dialog-title">{"Oppps!"}</DialogTitle>
-	        <DialogContent>
-	          <DialogContentText id="alert-dialog-description">
-	            Terdapat kesalahan saat mengambil atau memperbarui data grafik produk, ini terjadi karena server sedang sibuk sehingga
-	            mengakibatkan gateway timeout. Harap pastikan kembali koneksi internet anda
-	          </DialogContentText>
-	        </DialogContent>
-	        <DialogActions>
-	          <Button onClick={handleClose} color="primary" autoFocus>
-	            Tutup
-	          </Button>
-	          <Button onClick={handleTryAgain} color="primary" autoFocus>
-	            Coba Lagi
-	          </Button>
-	        </DialogActions>
-	    </Dialog>
-	);
-}
+// 	return(
+// 		<Dialog
+// 	        open={open}
+// 	        aria-labelledby="alert-dialog-title"
+// 	        aria-describedby="alert-dialog-description"
+// 	        maxWidth='xs'
+// 	      >
+// 	        <DialogTitle id="alert-dialog-title">{"Oppps!"}</DialogTitle>
+// 	        <DialogContent>
+// 	          <DialogContentText id="alert-dialog-description">
+// 	            Terdapat kesalahan saat mengambil atau memperbarui data grafik produk, ini terjadi karena server sedang sibuk sehingga
+// 	            mengakibatkan gateway timeout. Harap pastikan kembali koneksi internet anda
+// 	          </DialogContentText>
+// 	        </DialogContent>
+// 	        <DialogActions>
+// 	          <Button onClick={handleClose} color="primary" autoFocus>
+// 	            Tutup
+// 	          </Button>
+// 	          <Button onClick={handleTryAgain} color="primary" autoFocus>
+// 	            Coba Lagi
+// 	          </Button>
+// 	        </DialogActions>
+// 	    </Dialog>
+// 	);
+// }
 
 
 const BarChart = props => {
-	const { className, listproduk, error, onTryAgain, showTable, isShowTable, ...rest } = props;
+	const { className, listproduk, search, ...rest } = props;
 	const [formState, setState] = React.useState({
 		loading: true,
 		data: {
@@ -96,12 +94,10 @@ const BarChart = props => {
 
 	React.useEffect(() => {
 		const datasets = [];
-		const datasetsOld = [];
 		const labels   = [];
 		if (listproduk.length > 0) {
 			listproduk.slice(0, 10).forEach(product => {
-				datasets.push(Math.round(product.bsu));
-				datasetsOld.push(Math.round(product.old_bsu));
+				datasets.push(Number(product.produksi));
 				labels.push(product.deskripsi);
 			})
 
@@ -111,51 +107,24 @@ const BarChart = props => {
 				data:{
 					labels: labels,
 					datasets: [{
-						label: 'Bulan Ini',
+						label: 'Produksi',
 						backgroundColor: palette.primary.main,
 						data: datasets
-					},{
-						label: 'Bulan Sebelumnya',
-						backgroundColor: palette.success.light,
-						data: datasetsOld 
 					}]
 				}
 			})) 
 		}
 	}, [listproduk])
 
-	const handleClose = () => {
-		if (listproduk.length <= 0) {
-			setState(prevState => ({
-				...prevState,
-				loading: false,
-				data: {
-					...prevState.data,
-					labels: ['Tidak dapat memuat data']
-				}
-			}))		
-		}
-	} 
-
-	const onOverview = () => {
-		if (listproduk.length > 0) {
-			showTable();
-		}
-	}
-
 	const classes = useStyles();
 
 	return(
 		<React.Fragment>
-			{ error && <ModalDialog 
-				tryAgain={() => onTryAgain()} 
-				onClose={() => handleClose()}
-			/> }
 			<Card
 		      {...rest}
 		      className={clsx(classes.root, className)}
 		    >
-		    	<CardHeader title="TOP PRODUK"/>
+		    	<CardHeader title={`TOP PRODUK ${search}`}/>
 			    <Divider />
 			    <CardContent>
 			        <div className={classes.chartContainer}>
@@ -166,22 +135,6 @@ const BarChart = props => {
 				        />
 			        </div>
 			    </CardContent>
-			    <Divider/>
-			    <CardActions className={classes.actions}>
-			        <Button
-			          color="primary"
-			          size="small"
-			          variant="text"
-			          onClick={onOverview}
-			          disabled={listproduk.length > 0 ? false : true }
-			        >
-			          { isShowTable ? <React.Fragment>
-			          		Minimize <ArrowDropDownIcon />
-			          	</React.Fragment> : <React.Fragment>
-			          		Overview <ArrowRightIcon />
-			          	</React.Fragment> } 
-			        </Button>
-			    </CardActions>
 		    </Card>
 	    </React.Fragment>
 	);
@@ -190,10 +143,7 @@ const BarChart = props => {
 BarChart.propTypes = {
   className: PropTypes.string,
   listproduk: PropTypes.array.isRequired,
-  error: PropTypes.bool.isRequired,
-  onTryAgain: PropTypes.func.isRequired,
-  showTable: PropTypes.func.isRequired,
-  isShowTable: PropTypes.bool
+  search: PropTypes.string.isRequired
 };
 
 export default BarChart;

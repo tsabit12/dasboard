@@ -14,8 +14,8 @@ export default {
 				})
 	},
 	grafik: {
-		getProduk: () =>
-			axios.post(`${process.env.REACT_APP_API}/getProduk`)
+		getProduk: (payload) =>
+			axios.post(`${process.env.REACT_APP_API}/getProduk`, {...payload})
 				.then(res => res.data.result),
 		getToReg: (payload) => 
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`, { ...payload })

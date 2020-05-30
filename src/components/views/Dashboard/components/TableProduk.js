@@ -1,27 +1,22 @@
 import React from "react";
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  Divider,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Paper
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'; 
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(() => ({
-  chartContainer: {
-    position: 'relative'
-  },
-  actions: {
-    justifyContent: 'flex-end'
+  root: {
+  	height: '100%',
+    overflowX: 'auto',
   },
   table: {
-    minWidth: 650,
+    height: '600px'
   },
 }));
 
@@ -34,18 +29,13 @@ const TableProduk = props => {
 	var no = 1;
 	const classes = useStyles();
 	return(
-		<Card>
-			<CardHeader title="OVERVIEW GRAFIK PRODUK"/>
-		    <Divider />
-		    <CardContent>
-		      <Table className={classes.table} aria-label="simple table">
+		<Paper className={classes.root}>
+		    <Table className={classes.table}>
 		        <TableHead>
 		          <TableRow>
 		            <TableCell align="left">NO</TableCell>
 		            <TableCell align="left">PRODUK</TableCell>
-		            <TableCell align="right">BULAN INI</TableCell>
-		            <TableCell align="right">BULAN SEBELUMNYA</TableCell>
-		            <TableCell align="right">PERSENTASE</TableCell>
+		            <TableCell align="right">PRODUKSI</TableCell>
 		          </TableRow>
 		        </TableHead>
 		        <TableBody>
@@ -55,17 +45,13 @@ const TableProduk = props => {
 		                {no++}
 		              </TableCell>
 		              <TableCell align="left">{row.deskripsi}</TableCell>
-		              <TableCell align="right">{numberWithCommas(Math.round(row.bsu))}</TableCell>
-		              <TableCell align="right">{numberWithCommas(Math.round(row.old_bsu))}</TableCell>
-		              <TableCell align="right">
-		              	{ row.bsu === 0 && row.old_bsu === 0 ? '-' : `${Math.round(((row.bsu - row.old_bsu) / row.old_bsu))}%`}
-		              </TableCell>
+		              <TableCell align="right">{numberWithCommas(Number(row.produksi))}</TableCell>
 		            </TableRow>
 		          ))}
 		        </TableBody>
-		      </Table>
-		    </CardContent>
-		</Card>
+		    </Table>
+		</Paper>
+
 	);
 }
 
