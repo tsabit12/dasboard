@@ -31,7 +31,7 @@ class Ae extends React.Component{
 	state = {
 		offset: 1,
 		limit: 11,
-		page: 1
+		page: 0
 	}
 
 	componentDidMount(){
@@ -41,8 +41,8 @@ class Ae extends React.Component{
 
 	handlePageChange = (event, page) => {
 		this.setState({
-			offset: (page *  11) - 10,
-			limit: 11 * page,
+			offset: (page *  11) + 1,
+			limit: (page + 1) * 11,
 			page
 		});
 
@@ -52,7 +52,6 @@ class Ae extends React.Component{
 	}
 
 	render(){
-
 		const { classes, data } = this.props;
 
 		return(
@@ -82,7 +81,7 @@ class Ae extends React.Component{
 		          //onChangeRowsPerPage={handleRowsPerPageChange}
 		          page={this.state.page}
 		          labelDisplayedRows={() => `Displaying pages ${this.state.offset}-${this.state.limit} of total ${this.props.total} pages`}
-		          rowsPerPage={this.state.limit}
+		          rowsPerPage={11}
 		          // rowsPerPageOptions={[5, 10, 25]}
 		        />
 			</div>
