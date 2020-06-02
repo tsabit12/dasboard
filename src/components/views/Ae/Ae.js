@@ -96,8 +96,8 @@ class Ae extends React.Component{
 		const value	 	= convertMonthYear(date).split('-');
 		const periode 	= `${value[0]}-${value[1]}`;
 		const payload 	= {
-			offset: 1,
-			limit: 11,
+			offset: this.state.offset,
+			limit: this.state.limit,
 			periode
 		}
 		this.setState({ loading: true, periode, errors: {} });
