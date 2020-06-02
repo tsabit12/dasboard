@@ -32,9 +32,10 @@ export default {
 			axios.post(`${process.env.REACT_APP_API}/ae/getMinus15`, {
 				...payload
 			}).then(res => res.data.result),
-		getTotal: () =>
-			axios.post(`${process.env.REACT_APP_API}/ae/getTotalRow`)
-				.then(res => res.data.result)
+		getTotal: (periode) =>
+			axios.post(`${process.env.REACT_APP_API}/ae/getTotalRow`, {
+				periode: periode
+			}).then(res => res.data.result)
 	},
 	report: {
 		getRegional: () =>

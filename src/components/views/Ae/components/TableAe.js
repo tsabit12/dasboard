@@ -11,8 +11,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
-  	width: '100%',
-  	marginTop: '10px'
+  	width: '100%'
   },
   table: {
     minWidth: 650,

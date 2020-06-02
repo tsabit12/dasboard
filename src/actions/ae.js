@@ -18,8 +18,8 @@ export const getMinus = (payload) => dispatch =>
 			payload
 		})) 
 
-export const getTotalRow = () => dispatch => 
-	api.ae.getTotal()
+export const getTotalRow = (periode) => dispatch => 
+	api.ae.getTotal(periode)
 		.then(res => dispatch({
 			type: GET_TOTAL_ROW_MINUS,
 			total: res.total_row
