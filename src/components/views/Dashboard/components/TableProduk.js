@@ -12,12 +12,9 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(() => ({
   root: {
-  	height: '100%',
+  	height: '580px',
     overflowX: 'auto',
-  },
-  table: {
-    height: '600px'
-  },
+  }
 }));
 
 const numberWithCommas = (number) => {
@@ -30,7 +27,7 @@ const TableProduk = props => {
 	const classes = useStyles();
 	return(
 		<Paper className={classes.root}>
-		    <Table className={classes.table}>
+		    <Table>
 		        <TableHead>
 		          <TableRow>
 		            <TableCell align="left">NO</TableCell>
