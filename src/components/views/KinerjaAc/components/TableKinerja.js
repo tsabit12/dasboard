@@ -62,7 +62,7 @@ const TableKinerja = props => {
 				            <TableCell className={classes.row} align="left">{item.nm_perusahaan}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.nama}</TableCell>
 				            <TableCell className={classes.row} align="right">{numberWithCommas(item.produksi)}</TableCell>
-				            <TableCell className={classes.row} align="right">{numberWithCommas(item.tot_bsu)}</TableCell>
+				            <TableCell className={classes.row} align="right">{numberWithCommas(Math.round(item.tot_bsu))}</TableCell>
 						</TableRow>
 					</React.Fragment>
 				);
@@ -75,7 +75,7 @@ const TableKinerja = props => {
 			            <TableCell className={classes.row} align="left">{item.nm_perusahaan}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.nama}</TableCell>
 			            <TableCell className={classes.row} align="right">{numberWithCommas(item.produksi)}</TableCell>
-			            <TableCell className={classes.row} align="right">{numberWithCommas(item.tot_bsu)}</TableCell>
+			            <TableCell className={classes.row} align="right">{numberWithCommas(Math.round(item.tot_bsu))}</TableCell>
 					</TableRow>
 				)
 			}

@@ -15,6 +15,7 @@ import { getRegional, getKinerja } from "../../../actions/report";
 import api from "../../../api";
 import { convertDay } from "../../../utils";
 import LoaderBackdrop from "../LoaderBackdrop";
+import MessageInfo from "../MessageInfo";
 
 const styles = theme => ({
 	root: {
@@ -38,7 +39,8 @@ const styles = theme => ({
 class KinerjaAc extends React.Component{
 	state = {
 		kprk: [],
-		loading: false
+		loading: false,
+		errors: {}
 	}
 
 	componentDidMount(){
@@ -51,7 +53,7 @@ class KinerjaAc extends React.Component{
 	} 
 
 	onSearch = (param) => {
-		this.setState({ loading: true });
+		this.setState({ loading: true, errors: {} });
 		const payload = {
 			...param,
 			start: convertDay(param.start),
@@ -62,13 +64,29 @@ class KinerjaAc extends React.Component{
 
 		this.props.getKinerja(payload)
 			.then(() => this.setState({ loading: false }))
-			.catch(err => console.log(err))
+			.catch(err => {
+				if (err.response) {
+					const { data } = err.response;
+					this.setState({ errors: data.errors, loading: false });
+				}else{
+					this.setState({ loading: false, errors: { global: 'Terdapat kesalahan, silahkan cobalagi nanti'}});
+				}
+			})
 	}
 
 	render(){
 		const { classes, area } = this.props;
+		const { errors } = this.state;
+
 		return(
 			<div elevation={0} className={classes.root}>
+				<MessageInfo 
+					open={!!errors.global} 
+					variant="error" 
+					message={errors.global}
+					onClose={() => this.setState({ errors: {} })} 
+				/>
+
 				<LoaderBackdrop loading={this.state.loading} />
 				<Breadcrumbs aria-label="Breadcrumb">
 			        <div className={classes.link}>
