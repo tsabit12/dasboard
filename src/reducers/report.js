@@ -1,4 +1,4 @@
-import { GET_AREA, GET_PKS, GET_PERIODE_PKS } from "../types";
+import { GET_AREA, GET_PKS, GET_PERIODE_PKS, GET_KINERJA_AC } from "../types";
 
 const initialState = {
 	area: [],
@@ -11,7 +11,16 @@ const initialState = {
 		},
 		data: []
 	},
-	periodePks: []
+	periodePks: [],
+	kinerja: {
+		searchParams: {
+			reg: null,
+			kprk: null,
+			start: null,
+			end: null
+		},
+		data: []
+	}
 }
 
 export default function report(state=initialState, action={}) {
@@ -33,6 +42,19 @@ export default function report(state=initialState, action={}) {
 			return{
 				...state,
 				periodePks: action.data
+			}
+		case GET_KINERJA_AC:
+			return{
+				...state,
+				kinerja: {
+					searchParams: {
+						reg: action.payload.reg,
+						kprk: action.payload.kprk,
+						start: action.payload.startValue,
+						end: action.payload.endValue
+					},
+					data: action.data
+				}
 			}
 		default: return state;
 	}

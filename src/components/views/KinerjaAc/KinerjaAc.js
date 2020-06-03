@@ -9,11 +9,12 @@ import {
 	Paper,
 	Grid
 } from "@material-ui/core";
-import { SearchParam } from "./components";
+import { SearchParam, TableKinerja } from "./components";
 import { connect } from "react-redux";
-import { getRegional } from "../../../actions/report";
+import { getRegional, getKinerja } from "../../../actions/report";
 import api from "../../../api";
 import { convertDay } from "../../../utils";
+import LoaderBackdrop from "../LoaderBackdrop";
 
 const styles = theme => ({
 	root: {
@@ -36,7 +37,8 @@ const styles = theme => ({
 
 class KinerjaAc extends React.Component{
 	state = {
-		kprk: []
+		kprk: [],
+		loading: false
 	}
 
 	componentDidMount(){
@@ -49,19 +51,25 @@ class KinerjaAc extends React.Component{
 	} 
 
 	onSearch = (param) => {
+		this.setState({ loading: true });
 		const payload = {
 			...param,
 			start: convertDay(param.start),
-			end: convertDay(param.end)
+			end: convertDay(param.end),
+			startValue: param.start,
+			endValue: param.end
 		}
 
-		console.log(payload);
+		this.props.getKinerja(payload)
+			.then(() => this.setState({ loading: false }))
+			.catch(err => console.log(err))
 	}
 
 	render(){
 		const { classes, area } = this.props;
 		return(
 			<div elevation={0} className={classes.root}>
+				<LoaderBackdrop loading={this.state.loading} />
 				<Breadcrumbs aria-label="Breadcrumb">
 			        <div className={classes.link}>
 			        	<AssignmentTurnedInIcon className={classes.icon} />
@@ -79,9 +87,17 @@ class KinerjaAc extends React.Component{
 			    			getKprk={this.getKprk}
 			    			listKprk={this.state.kprk}
 			    			onSubmit={this.onSearch}
+			    			value={this.props.data.searchParams}
 			    		/>
 			    	</Grid>
 			    </Paper>
+			    <Grid container spacing={4}>
+			    	<Grid item lg={12} md={12} xl={12} xs={12}>
+			    		<TableKinerja 
+			    			data={this.props.data.data}
+			    		/>
+			    	</Grid>
+			    </Grid>
 			</div>
 		);
 	}
@@ -89,13 +105,16 @@ class KinerjaAc extends React.Component{
 
 KinerjaAc.propTypes = {
 	getRegional: PropTypes.func.isRequired,
-	area: PropTypes.array.isRequired
+	area: PropTypes.array.isRequired,
+	getKinerja: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
-		area: state.report.area
+		area: state.report.area,
+		data: state.report.kinerja
 	}
 }
 
-export default connect(mapStateToProps, { getRegional })(withStyles(styles)(KinerjaAc));
+export default connect(mapStateToProps, { getRegional, getKinerja })(withStyles(styles)(KinerjaAc));

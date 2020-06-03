@@ -49,6 +49,15 @@ const SearchParam = props => {
 	});
 
 	React.useEffect(() => {
+		setState(prevState => ({
+			...prevState,
+			start: props.value.start ? props.value.start : new Date(),
+			end: props.value.end ? props.value.end : new Date(),
+			reg: props.value.reg ? props.value.reg : '00'
+		}))
+	}, [props.value])
+
+	React.useEffect(() => {
 		
 		if (formState.reg !== '00') {
 			getKprk(formState.reg);
@@ -150,7 +159,8 @@ SearchParam.propTypes = {
 	area: PropTypes.array.isRequired,
 	getKprk: PropTypes.func.isRequired,
 	listKprk: PropTypes.array.isRequired,
-	onSubmit: PropTypes.func.isRequired
+	onSubmit: PropTypes.func.isRequired,
+	value: PropTypes.object.isRequired
 }
 
 export default SearchParam;

@@ -51,6 +51,10 @@ export default {
 		getPks: (payload) => 
 			axios.post(`${process.env.REACT_APP_API}/report/getPks`, {
 				...payload
+			}).then(res => res.data.result),
+		getKinerja: (payload) => 
+			axios.post(`${process.env.REACT_APP_API}/report/getKinerja`, {
+				...payload
 			}).then(res => res.data.result)
 	}
 }

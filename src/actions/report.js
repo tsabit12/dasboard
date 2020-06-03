@@ -1,5 +1,5 @@
 import api from "../api";
-import { GET_AREA, GET_PKS, GET_PERIODE_PKS } from "../types";
+import { GET_AREA, GET_PKS, GET_PERIODE_PKS, GET_KINERJA_AC } from "../types";
 
 export const getRegional = () => dispatch => 
 	api.report.getRegional()
@@ -22,4 +22,12 @@ export const getPeriodepks = () => dispatch =>
 		.then(data => dispatch({
 			type: GET_PERIODE_PKS,
 			data
+		}))
+
+export const getKinerja = (payload) => dispatch =>
+	api.report.getKinerja(payload)
+		.then(data => dispatch({
+			type: GET_KINERJA_AC,
+			data,
+			payload
 		}))
