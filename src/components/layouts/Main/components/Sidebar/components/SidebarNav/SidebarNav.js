@@ -22,6 +22,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import WarningIcon from '@material-ui/icons/Warning';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -202,7 +203,9 @@ const SidebarNav = props => {
         </ListItemText>
         {open.isOpen.report ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
+
       <Collapse in={open.isOpen.report} timeout="auto" unmountOnExit>
+
         <ListItem 
           button 
           className={classes.nested}
@@ -217,6 +220,22 @@ const SidebarNav = props => {
             <span className={classes.span}>DAFTAR PKS</span>
           </ListItemText>
         </ListItem>
+
+        <ListItem 
+          button 
+          className={classes.nested}
+          component={CustomRouterLink}
+          activeClassName={classes.activeLink}
+          to='/sales/kinerja-ac'
+        >
+          <ListItemIcon>
+            <SupervisedUserCircleIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.listText}>
+            <span className={classes.span}>KINERJA ACCOUNT CUSTOMER</span>
+          </ListItemText>
+        </ListItem>
+        
       </Collapse>
     </List>
   );

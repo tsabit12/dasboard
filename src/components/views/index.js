@@ -10,3 +10,4 @@ export { default as TopKprk } from './TopKprk';
 export { default as IndexV } from './IndexV';
 export { default as Ae } from './Ae';
 export { default as Pks } from './Pks';
+export { default as KinerjaAc } from './KinerjaAc';

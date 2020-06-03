@@ -21,7 +21,8 @@ import {
   TopKprk as TopKprkView,
   Ae as AeView,
   IndexV as IndexView,
-  Pks as PksView
+  Pks as PksView,
+  KinerjaAc as KinerjaAcView
 } from "./components/views";
 
 import {
@@ -85,6 +86,12 @@ const App = ({ location }) => {
           exact
           layout={MainLayout}
           path="/sales/list-pks"
+        />
+        <GuesRouteWithLayout
+          component={KinerjaAcView}
+          exact
+          layout={MainLayout}
+          path="/sales/kinerja-ac"
         />
         <UserRouteWithLayout
           location={location}
