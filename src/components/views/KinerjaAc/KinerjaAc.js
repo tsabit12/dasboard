@@ -7,7 +7,8 @@ import {
 	Breadcrumbs,
 	Typography,
 	Paper,
-	Grid
+	Grid,
+	Button
 } from "@material-ui/core";
 import { SearchParam, TableKinerja } from "./components";
 import { connect } from "react-redux";
@@ -16,6 +17,12 @@ import api from "../../../api";
 import { convertDay } from "../../../utils";
 import LoaderBackdrop from "../LoaderBackdrop";
 import MessageInfo from "../MessageInfo";
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const styles = theme => ({
 	root: {
@@ -33,6 +40,19 @@ const styles = theme => ({
 		padding: '15px',
 		marginBottom: '10px',
 		marginTop: '10px'
+	},
+	rightIcon: {
+	    marginLeft: theme.spacing(1),
+	},
+	button: {
+	    marginBottom: theme.spacing(1),
+	    backgroundColor: 'rgb(220, 0, 78)',
+	    color: "#FFFF",
+	    "&:hover": {
+	      backgroundColor: 'rgb(167, 0, 59)'
+	    },
+	    marginTop: '12px',
+	    float: 'right'
 	}
 })
 
@@ -75,7 +95,7 @@ class KinerjaAc extends React.Component{
 	}
 
 	render(){
-		const { classes, area } = this.props;
+		const { classes, area, data } = this.props;
 		const { errors } = this.state;
 
 		return(
@@ -100,15 +120,39 @@ class KinerjaAc extends React.Component{
 			    </Breadcrumbs>
 			    <Paper className={classes.paper}>
 			    	<Grid container spacing={4}>
-			    		<SearchParam 
-			    			area={area}
-			    			getKprk={this.getKprk}
-			    			listKprk={this.state.kprk}
-			    			onSubmit={this.onSearch}
-			    			value={this.props.data.searchParams}
-			    		/>
+			    		<Grid item lg={10} md={12} xl={12} xs={12}>
+				    		<SearchParam 
+				    			area={area}
+				    			getKprk={this.getKprk}
+				    			listKprk={this.state.kprk}
+				    			onSubmit={this.onSearch}
+				    			value={data.searchParams}
+				    		/>
+			    		</Grid>
+			    		<Grid item lg={2} md={2} xl={2} xs={2}>
+			    			{ data.data.length > 0 && <ExcelFile
+						    		element={
+						    			<Button variant="contained" className={classes.button}>
+									        Excel
+									        <SaveAltIcon className={classes.rightIcon} />
+									    </Button>
+							    	}
+							    	filename={`kinerja_account_customer(${convertDay(data.searchParams.start)} sd ${convertDay(data.searchParams.end)})`}
+						    	>
+						            <ExcelSheet data={data.data} name="Kinerja Account Customer">
+						                <ExcelColumn label="Wilayah" value="idwilayah"/>
+						                <ExcelColumn label="Kantor" value="NamaKtr"/>
+						                <ExcelColumn label="Id Pelanggan" value="idregpelanggan"/>
+						                <ExcelColumn label="Nama Pelanggan" value="nm_perusahaan"/>
+						                <ExcelColumn label="AE" value="nama"/>
+						                <ExcelColumn label="Produksi" value="produksi"/>
+						                <ExcelColumn label="Pendapatan" value="tot_bsu"/>
+						            </ExcelSheet>
+						    </ExcelFile> }
+						</Grid>
 			    	</Grid>
 			    </Paper>
+
 			    <Grid container spacing={4}>
 			    	<Grid item lg={12} md={12} xl={12} xs={12}>
 			    		<TableKinerja 
