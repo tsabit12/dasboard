@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import { connect } from "react-redux";
 import { getTopProduk } from "../../../actions/produk";
 import { 
@@ -14,16 +14,16 @@ import {
 	TableProduk ,
 	FormSearch
 } from "./components";
-import { convertMonthYear } from "../../../utils";
+import { convertDay } from "../../../utils";
 import MessageInfo from "../MessageInfo";
 
-const styles = theme => ({
+const useStyle = makeStyles(theme => ({
 	root: {
 	    padding: theme.spacing(4)
 	},
 	paper: {
 		marginBottom: '10px',
-		paddingLeft: '20px'
+		padding: 10
 	},
 	loadingBackdrop: {
 	    zIndex: theme.zIndex.drawer + 1,
@@ -37,73 +37,92 @@ const styles = theme => ({
 	    top: '50%',
 	    color: 'white'
 	}
-})
+}));
 
-class Dashboard extends React.Component{
-	state = {
-		isError: false,
-		loading: false
-	}
-
-	componentDidMount(){
-		const value = convertMonthYear(new Date()).split('-');
-		const payload = {
-			periode: `${value[0]}-${value[1]}`
+const Dashboard = props => {
+	const [state, setState] = React.useState({
+		loading: false,
+		errors: false,
+		data: {
+			start: new Date(),
+			end: new Date()
 		}
-		this.props.getTopProduk(payload)
-			.catch(err => this.setState({ isError: true }))
-	}
+	})
 
-	onSearch = (date) => {
-		const value = convertMonthYear(date).split('-');
+	const onSearch = () => {
+		const { data } = state;
 		const payload = {
-			periode: `${value[0]}-${value[1]}`
+			start: convertDay(data.start),
+			end: convertDay(data.end)
+		};
+
+		setState(prevState => ({
+			...prevState,
+			loading: true,
+			errors: false
+		}))
+
+		props.getTopProduk(payload)
+			.then(() => 
+				setState(prevState => ({
+					...prevState,
+					loading: false
+				})
+			)).catch(err => 
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					errors: true
+				})
+			))
+	}
+
+	const handleChange = (value, name) => setState(prevState => ({
+		...prevState,
+		data: {
+			...prevState.data,
+			[name]: value
 		}
-		//YYYY-MM
-		this.setState({ loading: true, isError: false });
+	}))
 
-		this.props.getTopProduk(payload)
-			.then(() => this.setState({ loading: false }))
-			.catch(err => this.setState({ loading: false, isError: true }))
-	}
+	const classes = useStyle();
 
-	render(){
-		const { classes, topProduk } = this.props;
-		const { loading } = this.state;
+	return(
+		<div className={classes.root}>
+			<React.Fragment>
+				<Backdrop className={classes.loadingBackdrop} open={state.loading} />
+				{ state.loading && <CircularProgress className={classes.progress} /> }
 
-		return(
-			<div className={classes.root}>
-				<React.Fragment>
-					<Backdrop className={classes.loadingBackdrop} open={loading} />
-					{ loading && <CircularProgress className={classes.progress} /> }
-
-					<MessageInfo 
-						open={this.state.isError} 
-						variant="error" 
-						message="Terdapat kesalahan"
-						onClose={() => this.setState({ isError: false })} 
-					/>
-				</React.Fragment>
-				<Paper className={classes.paper}>
-					<Grid container spacing={4}>
-						<FormSearch onSubmit={this.onSearch} />
-					</Grid>
-				</Paper>
-				<Grid container spacing={4}>
-				    <Grid item lg={6} md={6} xl={12} xs={12}>
-			        	<BarChart 
-			        		listproduk={topProduk} 
-			        		error={this.state.isError} 
-			        		search={this.props.param}
-			        	/>
-			        </Grid>
-			        <Grid item lg={6} md={6} xl={6} xs={12}>	
-			        	<TableProduk data={topProduk} />
-			        </Grid>
-			    </Grid>
-		    </div>
-		);
-	}
+				<MessageInfo 
+					open={state.errors} 
+					variant="error" 
+					message="Data tidak ditemukan"
+					onClose={() => setState(prevState => ({
+						...prevState,
+						errors: false
+					}))} 
+				/>
+			</React.Fragment>
+			<Paper className={classes.paper}>
+				<FormSearch 
+					onSubmit={onSearch} 
+					payload={state.data}
+					onChange={handleChange}
+				/>
+			</Paper>
+			<Grid container spacing={4}>
+			    <Grid item lg={6} md={6} xl={12} xs={12}>
+		        	<BarChart 
+		        		listproduk={props.topProduk} 
+		        		search={props.param}
+		        	/>
+		        </Grid>
+		        <Grid item lg={6} md={6} xl={6} xs={12}>	
+		        	<TableProduk data={props.topProduk} />
+		        </Grid>
+		    </Grid>
+		</div>
+	);
 }
 
 function mapStateToProps(state) {
@@ -113,7 +132,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getTopProduk })(withStyles(styles)(Dashboard));
-
-//example using redux
-// export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+export default connect(mapStateToProps, { getTopProduk })(Dashboard);

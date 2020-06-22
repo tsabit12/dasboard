@@ -1,38 +1,68 @@
 import React from "react";
-import { 
-	Grid, 
-	Fab
-} from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import { DatePicker } from "@material-ui/pickers";
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		margin: 10,
+		alignItems: 'center'
+	},
+	field: {
+		paddingRight: 15
+	}
+}));
 
 const FormSearch = props => {
-	const [selectedDate, handleDateChange] = React.useState(new Date());
+	const classes = useStyles();
+	// const [state, setState] = React.useState({
+	// 	start: new Date(),
+	// 	end: new Date()
+	// });
+
+	// const handleDateChange = (e, name) => setState(prevState => ({
+	// 	...prevState,
+	// 	[name]: e
+	// }))
+
+	const { payload } = props;
 
 	return(
-		<React.Fragment>
-			<Grid item lg={3} md={3} xl={3} xs={3}>
+		<div className={classes.root}>
+			<div className={classes.field}>	
 				<DatePicker
-			        disableFuture
-			        openTo="year"
-			        label="Periode"
-					views={["year", "month"]}
-			        value={selectedDate}
-			        onChange={(e) => handleDateChange(e._d)}
+			        // disableFuture
+			        format="DD/MM/YYYY"
+			        label="Tanggal Mulai"
+					views={["year", "month", "date"]}
+			        value={payload.start}
+			        onChange={(e) => props.onChange(e._d, 'start')}
 			    />
-			</Grid>
-			<Grid item lg={3} md={3} xl={3} xs={3}>
-				<Fab color="primary" aria-label="Add" size="small" onClick={() => props.onSubmit(selectedDate)}>
+			</div>
+			<div className={classes.field}>
+			    <DatePicker
+			        // disableFuture
+			        format="DD/MM/YYYY"
+			        label="Sampai"
+					views={["year", "month", "date"]}
+			        value={payload.end}
+			        onChange={(e) => props.onChange(e._d, 'end')}
+			    />
+			</div>
+				<Fab color="primary" aria-label="Add" size="small" onClick={() => props.onSubmit()}>
 			        <SearchIcon />
 			    </Fab>
-			</Grid>
-		</React.Fragment>
+		</div>
 	);
 }
 
 FormSearch.propTypes = {
-	onSubmit: PropTypes.func.isRequired
+	onSubmit: PropTypes.func.isRequired,
+	payload: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired
 }
 
 export default FormSearch;

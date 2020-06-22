@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(() => ({
   root: {
-  	height: '580px',
+  	height: '100%',
     overflowX: 'auto',
   }
 }));

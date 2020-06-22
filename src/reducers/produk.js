@@ -2,7 +2,7 @@ import { GET_TOP_PRODUK } from "../types";
 
 const initialState = {
 	data: [],
-	searchParam: ''
+	searchParam: {}
 }
 
 export default function produk(state=initialState, action={}) {
@@ -10,7 +10,10 @@ export default function produk(state=initialState, action={}) {
 		case GET_TOP_PRODUK:
 			return {
 				data: action.products,
-				searchParam: action.payload
+				searchParam: {
+					start: action.payload.start,
+					end: action.payload.end
+				}
 			}
 		default: return state;
 	}

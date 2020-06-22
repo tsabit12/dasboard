@@ -6,5 +6,5 @@ export const getTopProduk = (payload) => dispatch =>
 		.then(res => dispatch({
 			type: GET_TOP_PRODUK,
 			products: res,
-			payload: payload.periode
+			payload
 		}));

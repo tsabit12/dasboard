@@ -6,13 +6,7 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Divider,
-  LinearProgress,
-  // Dialog,
-  // DialogContent,
-  // DialogContentText,
-  // DialogTitle,
-  // DialogActions
+  Divider
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'; 
 import { options } from "./options";
@@ -26,6 +20,13 @@ const useStyles = makeStyles(() => ({
     height: '500px',
     position: 'relative'
   },
+  empty: {
+  	height: '450px',
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex'
+  },
   actions: {
     justifyContent: 'flex-end'
   },
@@ -36,50 +37,9 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-// const ModalDialog = props => {
-// 	const [open, setOpen] = React.useState(true);
-
-// 	const handleTryAgain = () => {
-// 		setOpen(false);
-// 		props.tryAgain();
-// 	}
-
-// 	const handleClose = () => {
-// 		setOpen(false);
-// 		props.onClose();
-// 	}
-
-// 	return(
-// 		<Dialog
-// 	        open={open}
-// 	        aria-labelledby="alert-dialog-title"
-// 	        aria-describedby="alert-dialog-description"
-// 	        maxWidth='xs'
-// 	      >
-// 	        <DialogTitle id="alert-dialog-title">{"Oppps!"}</DialogTitle>
-// 	        <DialogContent>
-// 	          <DialogContentText id="alert-dialog-description">
-// 	            Terdapat kesalahan saat mengambil atau memperbarui data grafik produk, ini terjadi karena server sedang sibuk sehingga
-// 	            mengakibatkan gateway timeout. Harap pastikan kembali koneksi internet anda
-// 	          </DialogContentText>
-// 	        </DialogContent>
-// 	        <DialogActions>
-// 	          <Button onClick={handleClose} color="primary" autoFocus>
-// 	            Tutup
-// 	          </Button>
-// 	          <Button onClick={handleTryAgain} color="primary" autoFocus>
-// 	            Coba Lagi
-// 	          </Button>
-// 	        </DialogActions>
-// 	    </Dialog>
-// 	);
-// }
-
-
 const BarChart = props => {
 	const { className, listproduk, search, ...rest } = props;
 	const [formState, setState] = React.useState({
-		loading: true,
 		data: {
 			labels: ['Memuat...'],
 			datasets: [
@@ -103,7 +63,6 @@ const BarChart = props => {
 
 			setState(prevState => ({
 				...prevState, 
-				loading: false,
 				data:{
 					labels: labels,
 					datasets: [{
@@ -124,16 +83,19 @@ const BarChart = props => {
 		      {...rest}
 		      className={clsx(classes.root, className)}
 		    >
-		    	<CardHeader title={`TOP PRODUK ${search}`}/>
+		    	{ search.start ? <CardHeader 
+		    		title={`TOP PRODUK (${search.start} sampai ${search.end})`}
+		    	/> : <CardHeader title='TOP PRODUK'/>}
 			    <Divider />
 			    <CardContent>
-			        <div className={classes.chartContainer}>
-			        	{ formState.loading && <LinearProgress className={classes.linear} />}
-			          	<Bar
-				            data={formState.data}
-				            options={options}
-				        />
-			        </div>
+		        	{ listproduk.length > 0 ? <div className={classes.chartContainer}>
+		        		<Bar
+			            	data={formState.data}
+			            	options={options}
+			            />
+					</div> : <div className={classes.empty}>
+						<p>klik icon search untuk menampilkan data</p>
+					</div> }
 			    </CardContent>
 		    </Card>
 	    </React.Fragment>
@@ -143,7 +105,7 @@ const BarChart = props => {
 BarChart.propTypes = {
   className: PropTypes.string,
   listproduk: PropTypes.array.isRequired,
-  search: PropTypes.string.isRequired
+  search: PropTypes.object.isRequired
 };
 
 export default BarChart;
