@@ -21,7 +21,7 @@ export default {
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan`, { ...payload })
 				.then(res => res.data.result),
 		getTopKrpk: (payload) =>
-			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprk`, { ...payload })
+			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprkBaru`, { ...payload })
 				.then(res => res.data.result)
 	},
 	ae: {

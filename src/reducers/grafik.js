@@ -4,7 +4,7 @@ const intialState = {
 	topReg: [],
 	topKprk: [],
 	searchReg: '',
-	searchKprk: ''
+	searchKprk: {}
 }
 
 export default function grafik(state = intialState, action={}){
@@ -19,7 +19,10 @@ export default function grafik(state = intialState, action={}){
 			return{
 				...state,
 				topKprk: action.data,
-				searchKprk: `${action.payload.year}-${action.payload.month}`
+				searchKprk: {
+					start: action.param.start,
+					end: action.param.end
+				}
 			}
 		default: return state;
 	}
