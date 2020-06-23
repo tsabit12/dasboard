@@ -1,4 +1,5 @@
 import axios from "axios";
+import FileDownload from "js-file-download";
 
 export default {
 	user: {
@@ -22,7 +23,16 @@ export default {
 				.then(res => res.data.result),
 		getTopKrpk: (payload) =>
 			axios.post(`${process.env.REACT_APP_API}/GetPendapatan/topKprkBaru`, { ...payload })
-				.then(res => res.data.result)
+				.then(res => res.data.result),
+		downloadTopKprk: (json, name) => 
+			axios.get(`${process.env.REACT_APP_API}/excel/TopKprk`, {
+				params: {
+					data: json
+				}
+			})
+			.then(response => {
+				FileDownload(response.data, `${name}.xlsx`);
+			})
 	},
 	ae: {
 		getTop: (payload) =>

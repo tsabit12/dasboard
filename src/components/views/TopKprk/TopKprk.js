@@ -5,14 +5,16 @@ import {
 	Breadcrumbs, 
 	Typography, 
 	Backdrop,
-	CircularProgress
+	CircularProgress,
+	Grid
 } from '@material-ui/core';
 import { connect } from "react-redux";
 import { getTopKrpk } from "../../../actions/grafik";
-import { Grafik } from "./components";
+import { Grafik, TableGrafik } from "./components";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { convertDay } from "../../../utils";
+import api from "../../../api";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -128,6 +130,13 @@ const TopKprk = props => {
 			})
 	}
 
+	const onDownloadTable = (jsonString) => {
+		const startF 	= convertDay(state.data.start);
+		const endF 		= convertDay(state.data.end);
+		const fileName 	= `TOP_KPRK(${startF})sd(${endF})`;
+		api.grafik.downloadTopKprk(jsonString, fileName);
+	}
+
 	const classes = useStyles();
 	const { grafik, searchParam } = props;
 	const { loading } = state;
@@ -147,13 +156,22 @@ const TopKprk = props => {
 		        </Typography>
 		    </Breadcrumbs>
 		    <div style={{marginTop: 10}}>
-				<Grafik 
-					data={grafik} 
-					param={searchParam} 
-					value={state.data}
-					handleChange={handleDateChange}
-					onSubmit={onSearch}
-				/>			    
+		    	<Grid container spacing={2}>
+					<Grafik 
+						data={grafik} 
+						param={searchParam} 
+						value={state.data}
+						handleChange={handleDateChange}
+						onSubmit={onSearch}
+					/>		
+				{ grafik.length > 0 && 
+					<Grid item lg={12} md={12} xl={12} xs={12}>
+						<TableGrafik 
+							data={grafik} 
+							download={() => onDownloadTable(JSON.stringify(grafik))}
+						/>
+					</Grid> }
+				 </Grid>	    
 		    </div>
 		</div>
 	);

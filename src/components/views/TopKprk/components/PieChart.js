@@ -8,14 +8,13 @@ import {
 const useStyles = makeStyles(theme => ({
 	root: {
 		position: 'relative',
-	  	height: 325,
-	  	margin: 5,
-	  	marginRight: 10
+	  	height: '370px',
+	  	margin: 15
 	},
   	label: {
 		overflowY: 'auto',
 	    display: 'flex',
-	    justifyContent: 'flex-start'
+	    justifyContent: 'space-between'
 	},
 	device: {
 	    textAlign: 'center',

@@ -14,7 +14,6 @@ import palette from '../../../../theme/palette';
 import { options } from "../../Dashboard/components/options";
 import { DatePicker } from "@material-ui/pickers";
 import SearchIcon from '@material-ui/icons/Search';
-import TableGrafik from "./TableGrafik";
 import PieChart from "./PieChart";
 
 const getColor = (index) => {
@@ -130,7 +129,7 @@ const Grafik = props => {
 		}
 	})
 
-	const { className, data, param, ...rest } = props;
+	const { className, data, param, handleChange, ...rest } = props;
 
 	React.useEffect(() => {
 		if (data.length > 0) {
@@ -187,48 +186,54 @@ const Grafik = props => {
 	const classes = useStyles();
 
 	return(
-		<Card
-		  {...rest}
-		  className={clsx(classes.root, className)}
-		>
-			<CardHeader 
-				title={
-					<RenderActionCard 
-						value={props.value} 
-						onChange={props.handleChange}
+		<React.Fragment>
+			<Grid item lg={6} md={6} xl={12} xs={12}>
+				<Card
+				  {...rest}
+				  className={clsx(classes.root, className)}
+				>
+					<CardHeader 
+						title={
+							<RenderActionCard 
+								value={props.value} 
+								onChange={handleChange}
+							/>
+						}
+						action={
+							<div className={classes.fab}>
+								<Fab color="primary" aria-label="Add" size="small" onClick={props.onSubmit}>
+							        <SearchIcon />
+							    </Fab>
+						    </div>
+						}
 					/>
-				}
-				action={
-					<div className={classes.fab}>
-						<Fab color="primary" aria-label="Add" size="small" onClick={props.onSubmit}>
-					        <SearchIcon />
-					    </Fab>
-				    </div>
-				}
-			/>
-		    <Divider />
-	    	{ data.length > 0 ?
-		    		<Grid container spacing={2}>
-		    			<Grid item lg={6} md={6} xl={12} xs={12}>
-		    				<div className={classes.chartContainer}>
-					    		<Bar
-						            data={formState.data}
-						            options={options}
-						        />
-					        </div>
-				        </Grid>
-				        <Grid item lg={6} md={6} xl={12} xs={12}>
-				    		<PieChart 
-				    			data={formState.pie}
-				    		/>
-				        </Grid>
-				        <Grid item lg={12} md={12} xl={12} xs={12}>
-							<TableGrafik data={data} />
-						</Grid>
-				    </Grid> : <div className={classes.empty}>
-	    		<p>Klik icon search untuk menampilkan data</p>
-	    	</div> }
-		</Card>
+				    <Divider />
+			    	{ data.length > 0 ?
+						<div className={classes.chartContainer}>
+				    		<Bar
+					            data={formState.data}
+					            options={options}
+					        />
+				        </div> : <div className={classes.empty}>
+			    			<p>Klik icon search untuk menampilkan data</p>
+			    		</div> }
+				</Card>
+			</Grid>
+			<Grid item lg={6} md={6} xl={12} xs={12}>
+				<Card
+					{...rest}
+					className={clsx(classes.root, className)}
+				>
+					<CardHeader title='PERSENTASE' />
+					<Divider />
+					{ data.length > 0 ? <PieChart 
+		    			data={formState.pie}
+		    		/> : <div className={classes.empty}>
+		    			<p>Empty</p>
+		    		</div> }
+				</Card>
+			</Grid>
+		</React.Fragment>
 	);
 }
 
