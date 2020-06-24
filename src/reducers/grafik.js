@@ -3,7 +3,7 @@ import { GET_TOP_REG, GET_TOP_KPRK } from "../types";
 const intialState = {
 	topReg: [],
 	topKprk: [],
-	searchReg: '',
+	searchReg: {},
 	searchKprk: {}
 }
 
@@ -13,7 +13,10 @@ export default function grafik(state = intialState, action={}){
 			return{
 				...state,
 				topReg: action.data,
-				searchReg: `${action.payload.year}-${action.payload.month}`
+				searchReg: {
+					start: action.payload.start,
+					end: action.payload.end
+				}
 			}
 		case GET_TOP_KPRK:
 			return{

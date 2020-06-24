@@ -1,12 +1,12 @@
 import api from "../api";
 import { GET_TOP_REG, GET_TOP_KPRK } from "../types";
 
-export const getToReg = (payload) => dispatch => 
-	api.grafik.getToReg(payload)
+export const getToReg = (param) => dispatch => 
+	api.grafik.getToReg(param.payload)
 		.then(data => dispatch({
 			type: GET_TOP_REG,
 			data,
-			payload
+			payload: param.search
 		}))
 
 export const getTopKrpk = (payload, param) => dispatch =>

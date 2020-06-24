@@ -1,17 +1,55 @@
 import React from "react";
-import { withStyles } from '@material-ui/styles';
-import { Grid, Breadcrumbs, Typography, Paper, Fab, Backdrop, CircularProgress } from '@material-ui/core';
-import { GrafikPendapatan, PieChart } from "./components";
+import { makeStyles } from '@material-ui/styles';
+import { 
+	Grid, 
+	Breadcrumbs, 
+	Typography, 
+	Backdrop, 
+	CircularProgress,
+	Divider
+} from '@material-ui/core';
+import { 
+	Search,
+	Grafik,
+	Pie
+} from "./components";
 import { connect } from "react-redux";
 import { getToReg } from "../../../actions/grafik";
 import PropTypes from "prop-types";
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-import { DatePicker } from "@material-ui/pickers";
-import SearchIcon from '@material-ui/icons/Search';
-import { convertMonthYear } from "../../../utils";
+import { convertDay } from "../../../utils";
+import palette from '../../../theme/palette';
 
-const styles = theme => ({
+const getColor = (index) => {
+	switch(index){
+		case 0:
+			return '#FF5E14';
+		case 1:
+			return '#2F4F4F';
+		case 2:
+			return '#FF8C00';
+		case 3:
+			return '#612B04';
+		case 4:
+			return '#3F6104';
+		case 5:
+			return '#14D0FF';
+		case 6:
+			return '#1481FF';
+		case 7:
+			return '#1418FF';
+		case 8:
+			return '#9D14FF';
+		case 9:
+			return '#FF1414';
+		case 10:
+			return '#827C7C';
+		default: return '#FFFFFF';
+	}
+}
+
+const useStyles = makeStyles(theme => ({
 	root: {
 	    padding: theme.spacing(4)
 	},
@@ -45,100 +83,186 @@ const styles = theme => ({
 	    left: '50%',
 	    top: '50%',
 	    color: 'white'
+	},
+	title: {
+		alignSelf: 'flex-end'
 	}
-})
+}))
 
-class TopReg extends React.Component{
-	state={
-		selectedDate: new Date(),
-		loading: false
-	}
-
-	componentDidMount(){
-		const value = convertMonthYear(new Date()).split('-');
-		const payload = {
-			year: value[0],
-			month: value[1]
-		}
-		this.props.getToReg(payload)
-			.catch(err => console.log(err))
-	}
-
-	handleDateChange = (e) => this.setState({ selectedDate: e._d })
-
-	onSearch = () => {
-		// e.preventDefault();
-		const { selectedDate } = this.state;
-		const startValue = convertMonthYear(selectedDate).split('-');
-		const payload = {
-			year: startValue[0],
-			month: startValue[1]
-		}
-
-		this.setState({ loading: true });
-		this.props.getToReg(payload)
-			.then(() => this.setState({ loading: false }));
-
-	}
-
-	render(){
-		const { classes } = this.props;
-		const { grafik, param } = this.props;
-		const { selectedDate, loading } = this.state;
-
-		return(
-			<div elevation={0} className={classes.root}>
-				<Backdrop className={classes.loadingBackdrop} open={loading} />
-        		{ loading && <CircularProgress className={classes.progress} /> }
-				<Breadcrumbs aria-label="Breadcrumb">
-			        <div className={classes.link}>
-				        <AssessmentIcon className={classes.icon} />
-				        TOP BISNIS KORPORAT
-			        </div>
-			        <Typography color="textPrimary" className={classes.link}>
-			          <WhatshotIcon className={classes.icon} />
-			          TOP REGIONAL
-			        </Typography>
-			    </Breadcrumbs>
-			    <Paper className={classes.paper}>
-			    	<Grid container spacing={2}>
-			    		<Grid item lg={3} md={3} xl={4} xs={4}>
-							<DatePicker
-						        openTo="year"
-						        views={["year", "month"]}
-						        label="Mulai"
-						        value={selectedDate}
-						        onChange={this.handleDateChange}
-						    />
-						</Grid>
-						<Grid item lg={3} md={3} xl={4} xs={4}>
-							<Fab color="primary" aria-label="Add" size="medium" onClick={() => this.onSearch()}>
-						        <SearchIcon />
-						    </Fab>
-						</Grid>
-			    	</Grid>
-			    </Paper>
-				<Grid container spacing={2}>
-					<Grid item lg={8} md={8} xl={12} xs={12}>
-						<div className={ grafik.length === 0 ? classes.backdrop : ''}>
-							<GrafikPendapatan data={grafik} param={param} />
-						</div>
-					</Grid>
-					<Grid item lg={4} md={4} xl={12} xs={12}>
-						<PieChart 
-							data={this.props.grafik}
-						/>
-					</Grid>
-			    </Grid>
+const Title = () => {
+	const classes = useStyles();
+	return(
+		<Breadcrumbs aria-label="Breadcrumb">
+			<div className={classes.link}>
+				<AssessmentIcon className={classes.icon} />
+				TOP BISNIS KORPORAT
 			</div>
-		);
+			<Typography color="textPrimary" className={classes.link}>
+				<WhatshotIcon className={classes.icon} />
+				TOP REGIONAL
+			</Typography>
+		</Breadcrumbs>
+	)
+}
+
+const TopReg = props => {
+	const [state, setState] = React.useState({
+		data: {
+			start: new Date(),
+			end: new Date()
+		},
+		loading: false,
+		pie: {},
+		chart: {},
+		errors: {}
+	});
+
+	React.useEffect(() => {
+		if (props.grafik.length > 0) {
+			//PIE
+			const totalInPie 	= [];
+			const dataPie 		= [];
+			const backgroundColor = [];
+			//CHART
+			const totTarget 	= [];
+			const totRealisasi 	= []; 
+			//ALL
+			const labels 		= [];
+
+			props.grafik.forEach((x, i) => {
+				//PIE
+				labels.push(x.NamaKtr);
+				totalInPie.push(Number(x.total_persen));
+				dataPie.push({
+					name: x.NamaKtr,
+					color: getColor(i),
+					jumlah: Number(x.total_persen)
+				});
+				backgroundColor.push(getColor(i));
+				//CHART
+				totTarget.push(Number(x.total));
+				totRealisasi.push(Number(x.total2));
+			})
+
+			setState(prevState => ({
+				...prevState,
+				pie: {
+					datasets: [{
+						data: totalInPie,
+						borderWidth: 8,
+				        borderColor: '#FFFFFF',
+				        hoverBorderColor: '#FFFFFF',
+				        backgroundColor
+					}],
+					labels,
+					dataPie
+				},
+				chart: {
+					labels,
+					datasets: [{
+						label: 'Target',
+						backgroundColor: palette.warning.main,
+						data: totTarget
+					},{
+						label: 'Realisasi',
+						backgroundColor: palette.secondary.light,
+						data: totRealisasi
+					}] 
+				},
+				data: {
+					start: props.param.start,
+					end: props.param.end
+				}
+			}))	
+		}
+	}, [props.grafik, props.param]);
+
+	const handleChange = (value, name) => {
+		setState(prevState => ({
+			...prevState,
+			data: {
+				...prevState.data,
+				[name]: value
+			}
+		}))
 	}
+
+	const handleSearch = () => {
+		const { start, end } = state.data;
+		const param = {
+			payload: {
+				start: convertDay(start),
+				end: convertDay(end)	
+			},
+			search: {
+				start,
+				end
+			}
+		}
+
+		setState(prevState => ({
+			...prevState,
+			loading: true
+		}));
+
+		props.getToReg(param)
+			.then(() => setState(prevState => ({
+				...prevState,
+				loading: false
+			})))
+			.catch(err => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					errors: {
+						global: 'Terdapat keslahan, silahkan cobalagi'
+					}
+				}))
+			})
+	}
+
+	const classes = useStyles();
+	const { loading } = state;
+
+	return(
+		<div elevation={0} className={classes.root}>
+			<Backdrop className={classes.loadingBackdrop} open={loading} />
+			{ loading && <CircularProgress className={classes.progress} /> }
+			<Grid container spacing={2}>
+				<Grid item lg={12} md={12} xl={12} xs={12}>
+					<Grid container spacing={2} style={{marginBottom: 5}}>
+						<Grid item lg={6} md={6} xl={12} xs={12} className={classes.title}>
+							<Title />
+						</Grid>
+						<Grid item lg={6} md={6} xl={12} xs={12}>
+							<Search 
+								value={state.data}
+								onChange={handleChange}
+								onSubmit={handleSearch}
+							/>
+						</Grid>
+					</Grid>
+					<Divider />
+				</Grid>
+				<Grid item lg={6} md={6} xl={12} xs={12}>
+					<Grafik 
+						data={state.chart}
+					/>
+				</Grid>
+				<Grid item lg={6} md={6} xl={12} xs={12}>
+					<Pie 
+						data={state.pie}
+					/>
+				</Grid>
+			</Grid>
+		</div>
+	);
 }
 
 TopReg.propTypes = {
 	getToReg: PropTypes.func.isRequired,
 	grafik: PropTypes.array.isRequired,
-	param: PropTypes.string.isRequired
+	param: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
@@ -148,4 +272,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getToReg })(withStyles(styles)(TopReg));
+export default connect(mapStateToProps, { getToReg })(TopReg);
