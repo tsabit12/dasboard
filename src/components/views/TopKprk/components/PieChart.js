@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		position: 'relative',
 	  	height: '370px',
-	  	margin: 15
+	  	margin: 6
 	},
   	label: {
 		overflowY: 'auto',
@@ -18,7 +18,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	device: {
 	    textAlign: 'center',
-	    padding: theme.spacing(1)
+	    padding: theme.spacing(1),
+	    // borderStyle: 'solid',
+	    // borderWidth: 1,
+	    margin: 2,
+	    borderRadius: 4
 	},
 }));
 
@@ -60,11 +64,12 @@ const PieChart = props => {
 					{dataPie.map((row, i) => (
 			            <div
 			              className={classes.device}
+			              style={{backgroundColor: row.color}}
 			              key={i}
 			            >
-			              <Typography variant="body1" style={{whiteSpace: 'nowrap', color: row.color}}>{row.name}</Typography>
+			              <Typography variant="body1" style={{whiteSpace: 'nowrap', color: '#FFFF'}}>{row.name}</Typography>
 			              <Typography
-			                style={{ color: row.color }}
+			                style={{ color: '#FFFF' }}
 			                variant="h5"
 			              >
 			                {row.jumlah}
