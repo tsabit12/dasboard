@@ -140,8 +140,8 @@ const TopReg = props => {
 				});
 				backgroundColor.push(getColor(i));
 				//CHART
-				totTarget.push(Number(x.total));
-				totRealisasi.push(Number(x.total2));
+				totTarget.push(Number(x.total2));
+				totRealisasi.push(Number(x.total));
 			})
 
 			setState(prevState => ({
