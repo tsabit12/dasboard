@@ -36,7 +36,7 @@ const numberWithCommas = (number) => {
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-const TableGrafik = props => {
+const ListTable = props => {
 	var no = 1;
 	const { data } = props;
 
@@ -123,9 +123,9 @@ const TableGrafik = props => {
 	);
 }
 
-TableGrafik.propTypes = {
+ListTable.propTypes = {
   data: PropTypes.array.isRequired,
   download: PropTypes.func.isRequired
 }
 
-export default TableGrafik;
+export default ListTable;
