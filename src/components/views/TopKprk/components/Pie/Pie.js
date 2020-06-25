@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import { 
 	Card,
 	CardHeader,
+	CardContent,
 	Divider,
 	Typography
 }  from "@material-ui/core";
@@ -15,22 +16,22 @@ const useStyles = makeStyles(theme => ({
 	},
 	pieContainer: {
 		position: 'relative',
-		height: '428px'
+		height: '370px'
 	},
 	label: {
-		overflowY: 'auto',
-	    display: 'flex',
-	    justifyContent: 'space-between',
-	    marginLeft: 5,
-	    marginRight: 5
+		marginTop: 6
 	},
 	device: {
 	    textAlign: 'center',
 	    padding: theme.spacing(1),
-	    // borderStyle: 'solid',
-	    // borderWidth: 1,
 	    margin: 2,
 	    borderRadius: 4
+	},
+	cardAction: {
+		overflowY: 'auto',
+		marginTop: 3,
+		justifyContent: 'space-between',
+		display: 'flex'
 	}
 }))
 
@@ -69,13 +70,16 @@ const Pie = props => {
 			/>
 			<Divider />
 			{ Object.keys(data).length > 0 && <React.Fragment>
-					<div className={classes.pieContainer}>
-						<Doughnut
-							data={data}
-							options={options}
-						/>
-					</div>
-					<div className={classes.label}>
+					<CardContent>
+						<div className={classes.pieContainer}>
+							<Doughnut
+								data={data}
+								options={options}
+							/>
+						</div>
+					</CardContent>
+					<Divider />
+					<div className={classes.cardAction}>
 						{data.dataPie.map((row, i) => (
 				            <div
 				              className={classes.device}

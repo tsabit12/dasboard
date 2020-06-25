@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	chartContainer: {
 		position: 'relative',
-		height: '460px'
+		height: '439px'
 	},
 	empty: {
 		position: 'relative',

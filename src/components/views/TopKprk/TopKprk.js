@@ -250,12 +250,12 @@ const TopKprk = props => {
 					</Grid>
 					<Divider />
 				</Grid>
-				<Grid item lg={6} md={6} xl={12} xs={12}>
+				<Grid item lg={8} md={8} xl={12} xs={12}>
 					<Chart 
 						data={state.chart}
 					/>
 				</Grid>
-				<Grid item lg={6} md={6} xl={12} xs={12}>
+				<Grid item lg={4} md={4} xl={12} xs={12}>
 					<Pie 
 						data={state.pie}
 					/>

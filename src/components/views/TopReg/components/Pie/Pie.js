@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 import {
 	Card,
 	CardHeader,
+	CardContent,
 	Divider,
 	Typography
 } from "@material-ui/core";
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	pieContainer: {
 		position: 'relative',
-		height: '428px'
+		height: '366px'
 	},
 	label: {
 		overflowY: 'auto',
@@ -31,6 +32,12 @@ const useStyles = makeStyles(theme => ({
 	    // borderWidth: 1,
 	    margin: 2,
 	    borderRadius: 4
+	},
+	cardAction: {
+		overflowY: 'auto',
+		marginTop: 3,
+		justifyContent: 'space-between',
+		display: 'flex'
 	}
 }))
 
@@ -68,13 +75,16 @@ const Pie = props => {
 			/>
 			<Divider />
 			{ Object.keys(data).length > 0 && <React.Fragment>
-					<div className={classes.pieContainer}>
-						<Doughnut
-							data={data}
-							options={options}
-						/>
-					</div>
-					<div className={classes.label}>
+					<CardContent>
+						<div className={classes.pieContainer}>
+							<Doughnut
+								data={data}
+								options={options}
+							/>
+						</div>
+					</CardContent>
+					<Divider />
+					<div className={classes.cardAction}>
 						{data.dataPie.map((row, i) => (
 				            <div
 				              className={classes.device}
