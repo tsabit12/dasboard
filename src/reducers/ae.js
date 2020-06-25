@@ -9,10 +9,7 @@ const initialStae = {
 		data: {},
 		totalRow: 0
 	},
-	searchParamTop: {
-		start: null,
-		end: null
-	}
+	searchParamTop: {}
 }
 
 export default function ae(state=initialStae, action={}) {

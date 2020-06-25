@@ -1,4 +1,2 @@
-export { default as TableAe } from "./TableAe";
-export { default as GrafikAe } from "./GrafikAe";
-export { default as Header } from "./Header";
-export { default as InputDate } from "./InputDate";
+export { default as Search } from "./Search";
+export { default as Table } from "./Table";

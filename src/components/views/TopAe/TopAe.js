@@ -1,90 +1,181 @@
 import React from "react";
-import { 
+import { makeStyles } from "@material-ui/styles";
+import {
 	Grid,
-	Paper
-} from '@material-ui/core';
-import PropTypes from "prop-types";
-import { withStyles } from '@material-ui/styles';
-import { 
-	TableAe, 
-	//GrafikAe,
-	Header,
-	InputDate
+	Breadcrumbs,
+	Typography,
+	Divider
+} from "@material-ui/core";
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import {
+	Search,
+	Table
 } from "./components";
-import { connect } from "react-redux";
-import { getTopAe } from "../../../actions/ae";
 import LoaderBackdrop from "../LoaderBackdrop";
 import MessageInfo from "../MessageInfo";
+import { connect } from "react-redux";
+import { getTopAe } from "../../../actions/ae";
+import { convertDay } from "../../../utils";
+import PropTypes from "prop-types";
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
 	root: {
-	    padding: theme.spacing(4)
+		padding: theme.spacing(4)
 	},
-	paper: {
-		padding: '10px',
-		marginTop: '10px'
+	title: {
+		alignSelf: 'flex-end'
+	},
+	icon: {
+	    marginRight: theme.spacing(0.5),
+	    width: 20,
+	    height: 20,
+	},
+	link: {
+	    display: 'flex',
 	}
-})
+}))
 
-class TopAe extends React.Component{
-	state = {
-		loading: false,
-		open: false
-	}
-
-	onSearch = (payload) => {
-		this.setState({ loading: true });
-		this.props.getTopAe(payload)
-			.then(() => this.setState({ loading: false }))
-			.catch(() => this.setState({ loading: false, open: true }))
-	}
-
-	render(){
-		const { classes, data, title } = this.props;
-
-		return(
-			<div elevation={0} className={classes.root}>
-				<MessageInfo 
-					open={this.state.open} 
-					variant="error" 
-					message="Terdapat kesalahan"
-					onClose={() => this.setState({ open: false })} 
-				/>
-
-				<LoaderBackdrop loading={this.state.loading} />
-				{ title.start !== null ? <Header 
-					data={data} 
-					title={`(${title.start} sampai ${title.end})`} 
-				/> : <Header 
-					data={data} 
-					title=''
-				/>}
-				<Paper className={classes.paper}>
-					<InputDate submit={this.onSearch} />
-				</Paper>
-				<Grid container spacing={2} style={{marginTop: '5px'}}>
-					<Grid item lg={12} md={12} xl={12} xs={12}>
-						<TableAe list={this.props.data} />
-					</Grid>
-				</Grid>
+const Title = () => {
+	const classes = useStyles();
+	return(
+		<Breadcrumbs aria-label="Breadcrumb">
+			<div className={classes.link}>
+				<AssessmentIcon className={classes.icon} />
+				TOP BISNIS KORPORAT
 			</div>
-		)
+			<Typography color="textPrimary" className={classes.link}>
+				<WhatshotIcon className={classes.icon} />
+				TOP 100 AE
+			</Typography>
+		</Breadcrumbs>
+	)
+}
+
+
+const TopAe = props => {
+	const [state, setState] = React.useState({
+		data: {
+			start: new Date(),
+			end: new Date()
+		},
+		loading: false,
+		errors: {}
+	})
+
+	React.useEffect(() => {
+		if (Object.keys(props.title).length > 0) {
+			setState(prevState => ({
+				...prevState,
+				data: {
+					start: props.title.start,
+					end: props.title.end
+				}
+			}))
+		}
+	}, [props.title])
+	
+	const classes = useStyles();
+	const handleChange = (value, name) => {
+		setState(prevState => ({
+			...prevState,
+			data: {
+				...prevState.data,
+				[name]: value
+			}
+		}))
 	}
+
+	const onSearch = () => {
+		const { data } = state;
+		setState(prevState => ({
+			...prevState,
+			loading: true
+		}))
+		const payload = {
+			startDate: convertDay(data.start),
+			endDate: convertDay(data.end)
+		}	 
+
+		props.getTopAe(payload, data.start, data.end)
+			.then(() => setState(prevState => ({
+				...prevState,
+				loading: false
+			})))
+			.catch(err => {
+				if (!err.response) {
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Terdapat kesalahan'
+						}
+					}))
+				}else{
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Data not found'
+						}
+					}))
+				}
+			})
+	}
+
+	const handleClose = () => setState(prevState => ({
+		...prevState,
+		errors: {}
+	}))
+
+	const { errors } = state;
+
+	return(
+		<div className={classes.root}>
+			<LoaderBackdrop loading={state.loading} />
+			<MessageInfo 
+				open={!!errors.global} 
+				variant="error" 
+				message={errors.global}
+				onClose={handleClose} 
+			/>
+			<Grid container spacing={2}>
+				<Grid item lg={12} md={12} xl={12} xs={12}>
+					<Grid container spacing={2} style={{marginBottom: 5}}>
+						<Grid item lg={6} md={6} xl={12} xs={12} className={classes.title}>
+							<Title />
+						</Grid>
+						<Grid item lg={6} md={6} xl={12} xs={12} className={classes.title}>
+							<Search 
+								value={state.data}
+								onChange={handleChange}
+								onSubmit={onSearch}
+							/>
+						</Grid>
+					</Grid>
+					<Divider />
+				</Grid>
+				<Grid item lg={12} md={12} xl={12} xs={12}>
+					<Table 
+						list={props.data}
+					/>
+				</Grid>
+			</Grid>
+		</div>
+	);
 }
 
 TopAe.propTypes = {
 	getTopAe: PropTypes.func.isRequired,
 	data: PropTypes.array.isRequired,
-	grafik: PropTypes.array.isRequired,
 	title: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		data: state.ae.top,
-		grafik: state.ae.grafikTop,
 		title: state.ae.searchParamTop
 	}
 }
 
-export default connect(mapStateToProps, { getTopAe })(withStyles(styles)(TopAe));
+export default connect(mapStateToProps, { getTopAe })(TopAe);
