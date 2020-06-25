@@ -32,6 +32,15 @@ export default {
 			})
 			.then(response => {
 				FileDownload(response.data, `${name}.xlsx`);
+			}),
+		downloadTopReg: (json, name) => 
+			axios.get(`${process.env.REACT_APP_API}/excel/TopReg`, {
+				params: {
+					data: json
+				}
+			})
+			.then(response => {
+				FileDownload(response.data, `${name}.xlsx`);
 			})
 	},
 	ae: {

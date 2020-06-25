@@ -11,7 +11,8 @@ import {
 import { 
 	Search,
 	Grafik,
-	Pie
+	Pie,
+	Table
 } from "./components";
 import { connect } from "react-redux";
 import { getToReg } from "../../../actions/grafik";
@@ -20,6 +21,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { convertDay } from "../../../utils";
 import palette from '../../../theme/palette';
+import api from "../../../api";
 
 const getColor = (index) => {
 	switch(index){
@@ -221,6 +223,13 @@ const TopReg = props => {
 			})
 	}
 
+	const handleDownload = (json) => {
+		const startF 	= convertDay(state.data.start);
+		const endF 		= convertDay(state.data.end);
+		const fileName 	= `TOP_REG(${startF})sd(${endF})`;
+		api.grafik.downloadTopReg(json, fileName);
+	}
+
 	const classes = useStyles();
 	const { loading } = state;
 
@@ -254,6 +263,12 @@ const TopReg = props => {
 						data={state.pie}
 					/>
 				</Grid>
+				{ props.grafik.length > 0 && <Grid item lg={12} md={12} xl={12} xs={12}>
+					<Table 
+						data={props.grafik}
+						download={handleDownload}
+					/>
+				</Grid> }
 			</Grid>
 		</div>
 	);
