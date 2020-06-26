@@ -1,36 +1,47 @@
 import React from "react";
-import { makeStyles } from '@material-ui/styles'; 
-import {  
+import { makeStyles } from "@material-ui/styles";
+import {
 	Paper,
-	Table,
-	TableRow,
+	Table, 
 	TableHead,
+	TableRow,
 	TableCell,
-	TableBody
-} from '@material-ui/core';
+	TableBody,
+	Typography
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-	marginTop: theme.spacing(1),
-    width: '100%',
-    marginBottom: theme.spacing(2),
-    overflowX: 'auto',
-  },
-  row: {
-  	whiteSpace: 'nowrap',
-  	fontSize: '12px'
-  },
-  header: {
-  	fontSize: '15px'
-  }
+	root: {
+		width: '100%',
+	    overflowX: 'auto',
+	    height: '530px'
+	},
+	content: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '90%',
+		display: 'flex'
+	},
+	label: {
+    	textTransform: 'capitalize'
+	},
+	row: {
+	  	whiteSpace: 'nowrap',
+	  	fontSize: '11px',
+	  	lineHeight: '0.3125rem'
+	},
+	head: {
+	  	whiteSpace: 'nowrap'
+	}
 }));
 
-
 const TablePks = props => {
-	const { data, errors } = props;
 	const classes = useStyles();
-	const contentTbody = [];
+	const { data } = props;
+
+	const content 	= [];
+
 	let groupByArea = '';
 	var no = 1;
 	if (data.length > 0) {
@@ -40,13 +51,13 @@ const TablePks = props => {
 			if (groupByArea !== area) {
 				no = 1;
 				groupByArea = area;
-				contentTbody.push(
+				content.push(
 					<React.Fragment key={i}>
 						<TableRow selected>
-							<TableCell colSpan='9' align="left">AREA {area}</TableCell>
+							<TableCell colSpan='10' align="left" className={classes.row}>AREA {area}</TableCell>
 						</TableRow>
 						<TableRow>
-							<TableCell component="th" scope="row">{no++}</TableCell>
+							<TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.nopend}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.NamaKtr}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.idregpelanggan}</TableCell>
@@ -55,13 +66,14 @@ const TablePks = props => {
 				            <TableCell className={classes.row} align="left">{item.no_pks}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.awal_pks}</TableCell>
 				            <TableCell className={classes.row} align="left">{item.akhir_pks}</TableCell>
+				            <TableCell className={classes.row} align="left">{item.ae}</TableCell>
 						</TableRow>
 					</React.Fragment>
 				);
 			}else{
-				contentTbody.push(
+				content.push(
 					<TableRow key={i}>
-						<TableCell component="th" scope="row">{no++}</TableCell>
+						<TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.nopend}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.NamaKtr}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.idregpelanggan}</TableCell>
@@ -70,41 +82,39 @@ const TablePks = props => {
 			            <TableCell className={classes.row} align="left">{item.no_pks}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.awal_pks}</TableCell>
 			            <TableCell className={classes.row} align="left">{item.akhir_pks}</TableCell>
+			            <TableCell className={classes.row} align="left">{item.ae}</TableCell>
 					</TableRow>
 				);
 			}
 		}
 	}
-
 	return(
-		<div>
-			{ errors.global ? <Paper className={classes.root} style={{backgroundColor: 'red'}}>
-				 <p style={{padding: '10px', color: 'white'}}>{errors.global}</p>
-			</Paper> : <React.Fragment>
-				{ data.length > 0 ? <Paper className={classes.root}>
-					<Table size="small">
-						<TableHead>
-							<TableRow className={classes.row}>
-								<TableCell align="left" className={classes.header}>NO</TableCell>
-								<TableCell align="left" className={classes.header}>NOPEND</TableCell>
-								<TableCell align="left" className={classes.header}>KANTOR</TableCell>
-								<TableCell align="left" className={classes.header}>ID PELANGGAN</TableCell>
-								<TableCell align="left" className={classes.header}>NAMA PELANGGAN</TableCell>
-								<TableCell align="left" className={classes.header}>SEGMENT</TableCell>
-								<TableCell align="left" className={classes.header}>NO PKS</TableCell>
-								<TableCell align="left" className={classes.header}>TGL MULAI</TableCell>
-								<TableCell align="left" className={classes.header}>TGL AKHIR</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{ contentTbody }
-						</TableBody>
-					</Table>
-				</Paper>: <Paper className={classes.root}>
-					 <p style={{padding: '10px'}}>Untuk menampilkan data pks, silahkan klik tombol tampilkan diatas</p>
-				</Paper>}
-			</React.Fragment> }
-		</div>
+		<Paper className={classes.root}>
+			<Table className={classes.table}>
+				<TableHead>
+		          <TableRow>
+		            <TableCell align="left" className={classes.head}>NO</TableCell>
+					<TableCell align="left" className={classes.head}>NOPEND</TableCell>
+					<TableCell align="left" className={classes.head}>KANTOR</TableCell>
+					<TableCell align="left" className={classes.head}>ID PELANGGAN</TableCell>
+					<TableCell align="left" className={classes.head}>NAMA PELANGGAN</TableCell>
+					<TableCell align="left" className={classes.head}>SEGMENT</TableCell>
+					<TableCell align="left" className={classes.head}>NO PKS</TableCell>
+					<TableCell align="left" className={classes.head}>TGL MULAI</TableCell>
+					<TableCell align="left" className={classes.head}>TGL AKHIR</TableCell>
+					<TableCell align="left" className={classes.head}>AE</TableCell>
+		          </TableRow>
+		        </TableHead>
+		        <TableBody>
+		        	{ content }
+		        </TableBody>
+			</Table>
+			{ data.length === 0 && <div className={classes.content}>
+				<Typography className={classes.label} variant="body2">
+			        KLIK TOMBOL TAMPILKAN UNTUK MENAMPILKAN DATA PKS
+			    </Typography>
+			</div>}
+		</Paper>
 	);
 }
 

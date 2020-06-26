@@ -7,7 +7,8 @@ const initialState = {
 			reg: null,
 			kprk: null,
 			jenis: null,
-			periode: null
+			start: null,
+			end: null
 		},
 		data: []
 	},

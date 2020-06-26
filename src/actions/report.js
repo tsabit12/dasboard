@@ -9,12 +9,12 @@ export const getRegional = () => dispatch =>
 		}))
 
 
-export const getPks = (payload) => dispatch =>
+export const getPks = (payload, param) => dispatch =>
 	api.report.getPks(payload)
 		.then(data => dispatch({
 			type: GET_PKS,
 			data,
-			searchParams: payload
+			searchParams: param
 		}))
 
 export const getPeriodepks = () => dispatch =>
